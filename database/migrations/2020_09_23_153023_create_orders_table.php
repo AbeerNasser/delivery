@@ -16,9 +16,12 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
+            $table->string('address');
             $table->float('order_price');
             $table->float('total_price');
             $table->boolean('order_status')->default(0);
+            $table->enum('payment_way', ['cash','vesa']);
+            $table->text('notes')->nullable();
             $table->unsignedBigInteger('delegate_id');
             $table->foreign('delegate_id')->references('id')->on('delegates');
             $table->unsignedBigInteger('restaurant_id');

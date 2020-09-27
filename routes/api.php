@@ -31,7 +31,12 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
         
         Route::group(['middleware' => ['checkRestaurantToken::restaurant-api']], function () {
             Route::post('getRestaurantByID', 'RestaurantController@show');
-            Route::post('newOrder', 'RestaurantController@createOrder');
+            Route::post('newOrder', 'OrderController@createOrder');
+            Route::post('confirmOrder', 'OrderController@storeOrder');
+            Route::post('orderTracking', 'OrderController@orderTracking');
+            Route::post('allOrders', 'OrderController@index');
+            Route::post('getOrderByID', 'OrderController@show');
+            
         
         });
     });

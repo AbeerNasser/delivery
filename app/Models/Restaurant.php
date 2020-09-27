@@ -12,8 +12,8 @@ class Restaurant extends Authenticatable implements JWTSubject {
     protected $table = 'restaurants';
 
     protected $fillable = [
-        'name', 'email','password','address','order-price',
-        'payment_way','district_id','note','created_at', 'updated_at'
+        'name', 'email','password','address','district_id',
+        'created_at', 'updated_at'
     ];
     protected $hidden = [
         'password', 'remember_token',

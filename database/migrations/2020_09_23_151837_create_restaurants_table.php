@@ -19,9 +19,6 @@ class CreateRestaurantsTable extends Migration
             $table->string('email')->unique();
             $table->string('address');
             $table->string('password');
-            $table->text('notes')->nullable();
-            $table->float('order-price');
-            $table->enum('payment_way', ['cash','vesa']);
             $table->unsignedBigInteger('district_id');
             $table->foreign('district_id')->references('id')->on('districts');
             $table->timestamps();
