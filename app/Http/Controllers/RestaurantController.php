@@ -20,7 +20,6 @@ class RestaurantController extends Controller
         // $city = District::with('city')->get();
         // $groupName = City::with('group')->get();
         $restaurants = Restaurant::get();
-        //return response()->json($restaurants);  
         return $this -> returnData('restaurants',$restaurants);
     }
 

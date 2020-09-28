@@ -9,7 +9,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class Delegate extends Authenticatable implements JWTSubject 
 {
 
-    protected $table = 'delegates';
+    protected $table = 'delegates' ;
     
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class Delegate extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'password'
+        'name', 'phone', 'password','sn_img','delegate_status','notes','created_at','updated_at'
     ];
 
     /**
@@ -32,6 +32,11 @@ class Delegate extends Authenticatable implements JWTSubject
     public function orders()
     {
         return $this->hasMany('App\Models\Order');
+    }
+
+    public function customerSupport()
+    {
+        return $this->hasMany('App\Models\CustomerSupport');
     }
 
     /**

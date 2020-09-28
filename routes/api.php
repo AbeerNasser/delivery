@@ -3,26 +3,27 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group([
-    'middleware' => ['api','checkPassword'],
-    'prefix' => 'delegates'
+// Route::group([
+//     'middleware' => ['api','checkPassword'],
+//     'prefix' => 'delegates'
 
-    ], function ($router) {
-        Route::post('login', 'AuthController@login');
-        Route::post('register', 'AuthController@register');
-        Route::post('logout', 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::get('user-profile', 'AuthController@userProfile');
+//     ], function ($router) {
+//         Route::post('login', 'AuthController@login');
+//         Route::post('register', 'AuthController@register');
+//         Route::post('logout', 'AuthController@logout');
+//         Route::post('refresh', 'AuthController@refresh');
+//         Route::get('user-profile', 'AuthController@userProfile');
 
 
-    //     Route::post('getAllRestaurants', 'RestaurantController@index');
-    //     Route::post('getRestaurantByID', 'RestaurantController@show');
+//     //     Route::post('getAllRestaurants', 'RestaurantController@index');
+//     //     Route::post('getRestaurantByID', 'RestaurantController@show');
 
-});
+// });
 
-//all routes / restaurant api authenticated
+
 Route::group(['middleware' => ['api','checkPassword'] ], function () {
-    
+
+    //Restaurants apis
     Route::post('getAllRestaurants', 'RestaurantController@index');
 
     Route::group(['prefix' => 'restaurant'],function (){
@@ -36,14 +37,30 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
             Route::post('orderTracking', 'OrderController@orderTracking');
             Route::post('allOrders', 'OrderController@index');
             Route::post('getOrderByID', 'OrderController@show');
-            
-        
+
+            Route::post('requestTechnicalSupport', 'TechnicalSupportController@requestTechnicalSupport');
+                       
+
         });
     });
 
-    // Route::group(['prefix' => 'delegate'],function (){
-    //     Route::post('login', 'AuthDelegateController@login');
-    //     Route::post('register', 'AuthDelegateController@register');
-    // });
+    //Delegates apis
+    Route::group(['prefix' => 'delegate'],function (){
+        Route::post('register', 'AuthDelegateController@register');
+        Route::post('login', 'AuthDelegateController@login');
+        
+        Route::group(['middleware' => ['checkDelegateToken::delegate-api']], function () {
+
+            Route::post('availableOrdersDelivery','DelegateController@AvailableOrdersDelivery');
+            Route::post('allMyOrders','DelegateController@allMyOrders');
+            Route::post('myOrdersOnDelivery','DelegateController@myOrdersOnDelivery');
+            Route::post('orderDetails', 'DelegateController@OrderDetails');
+            Route::post('myOrderDetails', 'DelegateController@myOrderDetails');
+            Route::post('requestDelegateTechnicalSupport', 'TechnicalSupportController@requestDelegateTechnicalSupport');
+            // Route::post('confirmOrder', 'OrderController@storeOrder');
+            // Route::post('orderTracking', 'OrderController@orderTracking');
+            // Route::post('allOrders', 'OrderController@index');                       
+        });
+    });
 
 });

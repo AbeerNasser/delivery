@@ -53,9 +53,8 @@ class OrderController extends Controller
         return $this -> returnData('newOrder',$order,'تم تقديم الطلب بنجاح');
     }
 
-    public function orderTracking(Request $request){
-
-        // $OrderID = Order::find($request -> id);
+    public function orderTracking(Request $request)
+    {
         $order = Order::select('id','order_price','delegate_id','address', 'order_status')->where('id', $request -> id)->get();
         return $this -> returnData('order',$order,'تتبع الطلب');
     }

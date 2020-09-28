@@ -56,25 +56,55 @@ class AuthDelegateController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'phone' => 'required|unique:delegates',
-            'password' => 'required|string|min:6',
-        ]);
+    // public function register(Request $request) {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required',
+    //         'phone' => 'required|unique:delegates',
+    //         'password' => 'required|string|min:6',
+    //     ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+    //     if($validator->fails()){
+    //         return response()->json($validator->errors()->toJson(), 400);
+    //     }
+
+    //     $delegateUser = Delegate::create(array_merge(
+    //                 $validator->validated(),
+    //                 ['password' => bcrypt($request->password)]
+    //             ));
+
+    //     return response()->json([
+    //         'message' => 'تم تسجيل مندوب جديد بنجاح',
+    //         'delegateUser' => $delegateUser
+    //     ], 201);
+    // }
+    public function register(Request $request)
+    {
+
+        try {
+            $rules = [
+                "name" => "required",
+                "phone" => "required",
+                "password" => "required"
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code, $validator);
+            }
+
+            //register
+
+            $delegateUser = Delegate::create(array_merge(
+                $validator->validated(),
+                ['password' => bcrypt($request->password)]
+            ));
+
+            return $this -> returnData('delegateUser' , $delegateUser,'تم تسجيل مندوب جديد بنجاح');
+
+        }catch (\Exception $ex){
+            return $this->returnError($ex->getCode(), $ex->getMessage());
         }
-
-        $delegateUser = Delegate::create(array_merge(
-                    $validator->validated(),
-                    ['password' => bcrypt($request->password)]
-                ));
-
-        return response()->json([
-            'message' => 'تم تسجيل مندوب جديد بنجاح',
-            'delegateUser' => $delegateUser
-        ], 201);
     }
 }

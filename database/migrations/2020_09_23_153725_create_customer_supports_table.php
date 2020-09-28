@@ -17,8 +17,9 @@ class CreateCustomerSupportsTable extends Migration
             $table->id();
             $table->string('phone');
             $table->text('details');
-            $table->string('delegate_name');
-            $table->integer('type_of_problem')->default(0);
+            $table->unsignedBigInteger('delegate_id');
+            $table->foreign('delegate_id')->references('id')->on('delegates');
+            $table->enum('type_of_problem', ['a','b','c','d']);
             $table->unsignedBigInteger('restaurant_id');
             $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->timestamps();
