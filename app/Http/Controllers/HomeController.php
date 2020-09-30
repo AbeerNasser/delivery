@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use App\Models\Restaurant;
+use App\Models\Delegate;
+use App\Models\City;
+use App\Models\Group;
+use App\Models\District;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -20,14 +27,25 @@ class HomeController extends Controller
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
-     */
+    */
+
+    //مدير دعم فني 
     public function index()
     {
-        return view('home');
+        return view('pages/support');
     }
 
+    //مدير عام 
     public function handleAdmin()
     {
-        return view('pages/dashboard');
+        $users = User::select('*')->get();
+        $districts = District::select('*')->get();
+        $cities = City::select('*')->get();
+        $groups = Group::select('*')->get();
+        $delegates = Delegate::select('*')->get();
+        $restaurants = Restaurant::select('*')->get();
+        //dd($users);
+        return view("pages/dashboard", 
+        compact('users','districts','cities','groups','delegates','restaurants'));
     } 
 }

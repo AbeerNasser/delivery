@@ -1,43 +1,55 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-// use App\Models\City;
-// use App\Models\District;
 use App\Models\Order;
+use App\Models\District;
 use App\Models\Restaurant;
+use App\Models\Delegate;
 use App\Traits\GeneralTrait;
 
 
 class OrderController extends Controller
 {
     use GeneralTrait;
+    
+    public function createOrder(Request $request)
+    {
+        //payment_ways enum values
+        $type = DB::select( DB::raw("SHOW COLUMNS FROM orders WHERE Field = 'payment_way'") )[0]->Type;
+        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+        $enum = explode("','", $matches[1]);
 
-    public function createOrder(Request $request){
+        //all districts
+        $districts = District::get('name');
 
-        $restaurant = Restaurant::find($request -> id);
-        //$district = Restaurant::find($request -> district_id);
-
-        $districts = DB::table('districts')
+        //price for every district
+        $districtsPrice = DB::table('districts')
             ->join('cities', 'districts.city_id', '=', 'cities.id')
             ->join('groups', 'cities.group_id', '=', 'groups.id')
             ->select('districts.id', 'districts.name', 'groups.price')
             ->get();
-        return $this -> returnData('districts',$districts,'سعر التوصيل لكل حي');
+
+        $data['districtsPrice']=$districtsPrice;
+        $data['enum']=$enum;
+        $data['districts']=$districts;
+      
+        return $this -> returnData('new order',$data,'سعر التوصيل لكل حي');
     }
 
-    public function storeOrder(Request $request){
+    public function storeOrder(Request $request)
+    {
         $restaurant = Restaurant::find($request -> id);
 
         //validation
-
         $request->validate([
             'order_price' => 'required',
-            'order_status' => 'required',
+            // 'order_status' => 'required',
             'payment_way' => 'required',
-            'price' => 'required',//delivery_price
+            // 'price' => 'required',//delivery_price
             'phone' => 'required',//client_phone
             'address' => 'required',//district_name
         ]);
@@ -55,14 +67,17 @@ class OrderController extends Controller
 
     public function orderTracking(Request $request)
     {
-        $order = Order::select('id','order_price','delegate_id','address', 'order_status')->where('id', $request -> id)->get();
+        $order = Order::select('id','order_price',
+        'address', 'order_status')->where('id', $request -> id)
+        ->addSelect(['delegate_phone' => Delegate::select('phone')
+        ->whereColumn('id', 'orders.delegate_id')])
+        ->get();
         return $this -> returnData('order',$order,'تتبع الطلب');
     }
 
     public function index()
     {
-        //$order = Order::select('id','order_price','delegate_id','address', 'order_status')->where('id', $request -> id)->get();
-        $orders = Order::orderBy('created_at', 'desc')->get(['id','order_price','created_at']);
+         $orders = Order::orderBy('created_at', 'desc')->get(['id','order_price','created_at']);
         return $this -> returnData('orders',$orders,'الطلبات من الاحدث الي الاقدم');
     }
 

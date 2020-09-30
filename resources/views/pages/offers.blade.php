@@ -7,7 +7,7 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
-<title>الأحياء</title>
+<title>العروض</title>
 
 <!-- Bootstrap Core and vandor -->
 <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css" />
@@ -124,7 +124,7 @@
                             <a href="cities.html"><i class="fa fa-map"></i><span data-hover="المدن">المدن</span></a>
                         </li>
 
-                        <li class="active">
+                        <li>
                             <a href="districts.html"><i class="fa fa-map-marker"></i><span data-hover="الأحياء">الأحياء</span></a>
                         </li>
 
@@ -133,7 +133,7 @@
                         </li>
 
               
-                        <li>
+                        <li class="active">
                             <a href="offers.html"><i class="fa fa-gift"></i><span data-hover="العروض">العروض</span></a>
                         </li>
 
@@ -291,35 +291,31 @@
 
         <div class="section-body">
             <div class="container-fluid">
-            <a href="addNewDistrict.html" class="btn btn-danger btn-block">إضافة حي جديد</a><br />
                 <div class="row clearfix">
                     <div class="col-lg-12">
                         <div class="table-responsive mb-4">
                             <table class="table table-hover js-basic-example dataTable table_custom spacing5">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المطعم</th>
+                                        <th>الإيميل</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المطعم</th>
+                                        <th>الإيميل</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
-                                        <td>الروضة</td>
-                                        <td>جده</td>
+                                        <td>مطعم 1</td>
+                                        <td>rest@gmail.com</td>
                                         <td>
-                                            <a href="#" class="btn btn-secondary">تعديل</a>
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">إضافة عرض</button>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#disableModal">تعطيل العرض</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -346,20 +342,32 @@
 </div>
 
 <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">حذف عنصر</h5>
+                <h5 class="modal-title" id="exampleModalLabel">إضافة عرض توصيل</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
+                <p style="color:red;">عروض التوصيل تقوم بخصم كامل قيمة التوصيل من المطعم ولكن تضاف للمندوب من الحساب الخاص للتطبيق</p>
+                <form>
+                    <div class="col-md-12">
+                        <label>نسبة الخصم (نسبة مئوية)</label>
+                        <input type="number" class="form-control" />
+                    </div>
+                    <br /><hr /><br />
+                    <div class="col-md-12">
+                        <label>تطبيق الخصم حتى تاريخ</label>
+                        <input type="date" class="form-control" />
+                    </div>
+                    <br />
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
+                <button type="button" class="btn btn-success">تأكيد تطبيق العرض</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>
@@ -371,16 +379,28 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">تعطيل مؤقت</h5>
+                <h5 class="modal-title" id="exampleModalLabel">تعطيل العرض على المتجر</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>هل أنت متأكد من تعطيل هذا المطعم ؟</p>
+                <p style="color:red;">عروض التوصيل تقوم بخصم كامل قيمة التوصيل من المطعم ولكن تضاف للمندوب من الحساب الخاص للتطبيق</p>
+                <form>
+                    <div class="col-md-12">
+                        <label>نسبة الخصم (نسبة مئوية)</label>
+                        <input type="number" class="form-control" disabled/>
+                    </div>
+                    <br /><hr /><br />
+                    <div class="col-md-12">
+                        <label> الخصم حتى تاريخ</label>
+                        <input type="date" class="form-control" disabled/>
+                    </div>
+                    <br />
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد</button>
+                <button type="button" class="btn btn-danger">تأكيد تعطيل العرض</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>

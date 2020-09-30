@@ -7,24 +7,10 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
-<title>الأحياء</title>
-
+<title>مجموعات التسعير</title>
 <!-- Bootstrap Core and vandor -->
 <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css" />
 
-<!-- Plugins css -->
-<link rel="stylesheet" href="../assets/plugins/datatable/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="../assets/plugins/datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css">
-<link rel="stylesheet" href="../assets/plugins/datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css">
-<style>
-    td.details-control {
-    background: url('../assets/images/details_open.png') no-repeat center center;
-    cursor: pointer;
-}
-    tr.shown td.details-control {
-        background: url('../assets/images/details_close.png') no-repeat center center;
-    }
-</style>
 <!-- Core css -->
 <link rel="stylesheet" href="../assets/css/main.css"/>
 <link rel="stylesheet" href="../assets/css/theme1.css" id="stylesheet"/>
@@ -112,7 +98,7 @@
                         </li>
 
                         <li class="g_heading">أساسيات النظام</li>
-                        <li>
+                        <li class="active">
                             <a href="restaurants.html"><i class="fa fa-university"></i><span data-hover="المطاعم">المطاعم</span></a>
                         </li>
 
@@ -124,7 +110,7 @@
                             <a href="cities.html"><i class="fa fa-map"></i><span data-hover="المدن">المدن</span></a>
                         </li>
 
-                        <li class="active">
+                        <li>
                             <a href="districts.html"><i class="fa fa-map-marker"></i><span data-hover="الأحياء">الأحياء</span></a>
                         </li>
 
@@ -262,7 +248,8 @@
                                 <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input btn-rtl" checked="">
                                 <span class="custom-switch-indicator"></span>
                             </label>
-                        </li>
+                        </li>          
+                        
                     </ul>
                 </div>
             </div>
@@ -289,43 +276,46 @@
             </div>
         </div>
 
+
         <div class="section-body">
             <div class="container-fluid">
-            <a href="addNewDistrict.html" class="btn btn-danger btn-block">إضافة حي جديد</a><br />
+                <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#addModal">إضافة مجموعة تسعيير جديدة</button>
                 <div class="row clearfix">
                     <div class="col-lg-12">
                         <div class="table-responsive mb-4">
                             <table class="table table-hover js-basic-example dataTable table_custom spacing5">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المجموعة</th>
+                                        <th>أحياء المجموعة</th>
+                                        <th>سعر التوصيل</th>
+                                        <th>نسبة المندوب</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المجموعة</th>
+                                        <th>أحياء المجموعة</th>
+                                        <th>سعر التوصيل</th>
+                                        <th>نسبة المندوب</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
-                                        <td>الروضة</td>
-                                        <td>جده</td>
+                                        <td>A</td>
+                                        <td>الروضة, الفيصلية</td>
+                                        <td>10</td>
+                                        <td>2.5</td>
                                         <td>
-                                            <a href="#" class="btn btn-secondary">تعديل</a>
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">حذف</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
         </div>
@@ -345,56 +335,64 @@
     </div>
 </div>
 
-<!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">حذف عنصر</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-            </div>
-        </div>
-    </div>
-</div>   
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">إضافة مجموعة تسعيير</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="col-md-12">
+                            <label>إسم المجموعة</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <hr />
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">الأحياء</label>
+                                <select class="form-control custom-select" multiple>
+                                    <option value="">إختر ....</option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
 
-<!-- Disable Modal -->
-    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">تعطيل مؤقت</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>هل أنت متأكد من تعطيل هذا المطعم ؟</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                                </select>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="col-md-12">
+                            <label>سعر التوصيل</label>
+                            <input type="number" class="form-control" />
+                        </div>
+                        <hr />
+                        <div class="col-md-12">
+                            <label>نسبة المندوب (نسبة مئوية)</label>
+                            <input type="number" class="form-control" />
+                        </div>
+                        <br />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success">حفظ المجموعة</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                </div>
             </div>
         </div>
-    </div>
-</div> 
+    </div>   
 
 <!-- jQuery and bootstrtap js -->
 <script src="../assets/bundles/lib.vendor.bundle.js"></script>
 
 <!-- start plugin js file  -->
-<script src="../assets/bundles/dataTables.bundle.js"></script>
+<script src="../assets/bundles/selectize.bundle.js"></script>
 
 <!-- Start core js and page js -->
 <script src="../assets/js/core.js"></script>
-<script src="assets/js/table/datatable.js"></script>
+<script src="assets/js/vendors/selectize.js"></script>
 </body>
 </html>

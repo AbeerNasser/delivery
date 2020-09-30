@@ -3,42 +3,25 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::group([
-//     'middleware' => ['api','checkPassword'],
-//     'prefix' => 'delegates'
-
-//     ], function ($router) {
-//         Route::post('login', 'AuthController@login');
-//         Route::post('register', 'AuthController@register');
-//         Route::post('logout', 'AuthController@logout');
-//         Route::post('refresh', 'AuthController@refresh');
-//         Route::get('user-profile', 'AuthController@userProfile');
-
-
-//     //     Route::post('getAllRestaurants', 'RestaurantController@index');
-//     //     Route::post('getRestaurantByID', 'RestaurantController@show');
-
-// });
-
 
 Route::group(['middleware' => ['api','checkPassword'] ], function () {
 
     //Restaurants apis
-    Route::post('getAllRestaurants', 'RestaurantController@index');
+    Route::post('getAllRestaurants', 'Api\RestaurantController@index');
 
     Route::group(['prefix' => 'restaurant'],function (){
-        Route::post('register', 'AuthRestaurantController@register');
-        Route::post('login', 'AuthRestaurantController@login');
+        Route::post('register', 'Api\AuthRestaurantController@register');
+        Route::post('login', 'Api\AuthRestaurantController@login');
         
         Route::group(['middleware' => ['checkRestaurantToken::restaurant-api']], function () {
-            Route::post('getRestaurantByID', 'RestaurantController@show');
-            Route::post('newOrder', 'OrderController@createOrder');
-            Route::post('confirmOrder', 'OrderController@storeOrder');
-            Route::post('orderTracking', 'OrderController@orderTracking');
-            Route::post('allOrders', 'OrderController@index');
-            Route::post('getOrderByID', 'OrderController@show');
+            Route::post('getRestaurantByID', 'Api\RestaurantController@show');
+            Route::post('newOrder', 'Api\OrderController@createOrder');
+            Route::post('confirmOrder', 'Api\OrderController@storeOrder');
+            Route::post('orderTracking', 'Api\OrderController@orderTracking');
+            Route::post('allOrders', 'Api\OrderController@index');
+            Route::post('getOrderByID', 'Api\OrderController@show');
 
-            Route::post('requestTechnicalSupport', 'TechnicalSupportController@requestTechnicalSupport');
+            Route::post('requestTechnicalSupport', 'Api\TechnicalSupportController@requestTechnicalSupport');
                        
 
         });
@@ -46,17 +29,17 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
 
     //Delegates apis
     Route::group(['prefix' => 'delegate'],function (){
-        Route::post('register', 'AuthDelegateController@register');
-        Route::post('login', 'AuthDelegateController@login');
+        Route::post('register', 'Api\AuthDelegateController@register');
+        Route::post('login', 'Api\AuthDelegateController@login');
         
         Route::group(['middleware' => ['checkDelegateToken::delegate-api']], function () {
 
-            Route::post('availableOrdersDelivery','DelegateController@AvailableOrdersDelivery');
-            Route::post('allMyOrders','DelegateController@allMyOrders');
-            Route::post('myOrdersOnDelivery','DelegateController@myOrdersOnDelivery');
-            Route::post('orderDetails', 'DelegateController@OrderDetails');
-            Route::post('myOrderDetails', 'DelegateController@myOrderDetails');
-            Route::post('requestDelegateTechnicalSupport', 'TechnicalSupportController@requestDelegateTechnicalSupport');
+            Route::post('availableOrdersDelivery','Api\DelegateController@AvailableOrdersDelivery');
+            Route::post('allMyOrders','Api\DelegateController@allMyOrders');
+            Route::post('myOrdersOnDelivery','Api\DelegateController@myOrdersOnDelivery');
+            Route::post('orderDetails', 'Api\DelegateController@OrderDetails');
+            Route::post('myOrderDetails', 'Api\DelegateController@myOrderDetails');
+            Route::post('requestDelegateTechnicalSupport', 'Api\TechnicalSupportController@requestDelegateTechnicalSupport');
             // Route::post('confirmOrder', 'OrderController@storeOrder');
             // Route::post('orderTracking', 'OrderController@orderTracking');
             // Route::post('allOrders', 'OrderController@index');                       

@@ -7,19 +7,29 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
-<title>الصفحة الرئيسية</title>
+<title>الرئيسية</title>
 
 <!-- Bootstrap Core and vandor -->
 <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css" />
 
 <!-- Plugins css -->
-<link rel="stylesheet" href="../assets/plugins/charts-c3/c3.min.css"/>
-<link rel="stylesheet" href="../assets/plugins/jvectormap/jvectormap-2.0.3.css" />
-
+<link rel="stylesheet" href="../assets/plugins/datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../assets/plugins/datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css">
+<link rel="stylesheet" href="../assets/plugins/datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css">
+<style>
+    td.details-control {
+    background: url('../assets/images/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+    tr.shown td.details-control {
+        background: url('../assets/images/details_close.png') no-repeat center center;
+    }
+</style>
 <!-- Core css -->
 <link rel="stylesheet" href="../assets/css/main.css"/>
 <link rel="stylesheet" href="../assets/css/theme1.css" id="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+
 </head>
 
 <body class="font-opensans iconcolor rtl">
@@ -277,88 +287,66 @@
             </div>
         </div>
 
-        <div class="section-body mt-3">
-            <div class="container-fluid">
-                <div class="row clearfix">
-                    <div class="col-lg-12">
-                        <div class="mb-4">
-                            <h2>رئيسية لوحة تحكم النظام</h2>                            
-                            <small>الصفحة الرئيسية للوحة تحكم نظام تطبيق Faster Delivery</small>
-                        </div>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="section-body">
             <div class="container-fluid">
+            <a href="#" class="btn btn-danger btn-block">إضافة</a><br />
                 <div class="row clearfix">
-                    <div class="col-6 col-md-4 col-xl-2">
-                        <div class="card">
-                            <div class="card-body ribbon">
-                                <div class="ribbon-box green counter">20</div>
-                                <a href="restaurants.html" class="my_sort_cut text-muted">
-                                    <i class="icon-rocket"></i>
-                                    <span>المطاعم</span>
-                                </a>
-                            </div>
+                    <div class="col-lg-12">
+                        <div class="table-responsive mb-4">
+                            <table class="table table-hover js-basic-example dataTable table_custom spacing5">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start</th>
+                                        <th>Salary</th>
+                                        <th>عمليات</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start</th>
+                                        <th>Salary</th>
+                                        <th>عمليات</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr>
+                                        <td>Tiger</td>
+                                        <td>System </td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011</td>
+                                        <td>$320</td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger">عرض</a>                                   
+                                            <a href="#" class="btn btn-secondary">تعديل</a>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Garrett</td>
+                                        <td>Accountant</td>
+                                        <td>Tokyo</td>
+                                        <td>63</td>
+                                        <td>2011</td>
+                                        <td>$170</td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger">عرض</a>                                   
+                                            <a href="#" class="btn btn-secondary">تعديل</a>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-xl-2">
-                        <div class="card">
-                            <div class="card-body ribbon">
-                                <div class="ribbon-box green counter">100</div>
-                                <a href="salesReps.html" class="my_sort_cut text-muted">
-                                    <i class="icon-users"></i>
-                                    <span>المناديب</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-xl-2">
-                        <div class="card">
-                            <div class="card-body ribbon">
-                                <div class="ribbon-box green counter">8</div>
-                                <a href="cities.html" class="my_sort_cut text-muted">
-                                    <i class="icon-map"></i>
-                                    <span>المدن</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-xl-2">
-                        <div class="card">
-                            <div class="card-body ribbon">
-                                <div class="ribbon-box green counter">60</div>
-                                <a href="districts.html" class="my_sort_cut text-muted">
-                                    <i class="icon-globe"></i>
-                                    <span>الأحياء</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-xl-2">
-                        <div class="card">
-                            <div class="card-body ribbon">
-                                <div class="ribbon-box green counter">6</div>
-                                <a href="priceGroups.html" class="my_sort_cut text-muted">
-                                    <i class="icon-layers"></i>
-                                    <span>المجموعات</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 col-xl-2">
-                        <div class="card">
-                            <div class="card-body ribbon">
-                                <div class="ribbon-box green counter">8</div>
-                                <a href="users.html" class="my_sort_cut text-muted">
-                                    <i class="icon-user"></i>
-                                    <span>المستخدمين</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>                    
+                    </div>                
                 </div>
             </div>
         </div>
@@ -378,20 +366,35 @@
     </div>
 </div>
 
+<!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">حذف عنصر</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+            </div>
+        </div>
+    </div>
+</div>   
 
 <!-- jQuery and bootstrtap js -->
 <script src="../assets/bundles/lib.vendor.bundle.js"></script>
 
 <!-- start plugin js file  -->
-<script src="../assets/bundles/apexcharts.bundle.js"></script>
-<script src="../assets/bundles/counterup.bundle.js"></script>
-<script src="../assets/bundles/knobjs.bundle.js"></script>
-<script src="../assets/bundles/c3.bundle.js"></script>
-<script src="../assets/bundles/flot.bundle.js"></script>
-<script src="../assets/bundles/jvectormap1.bundle.js"></script>
+<script src="../assets/bundles/dataTables.bundle.js"></script>
 
 <!-- Start core js and page js -->
 <script src="../assets/js/core.js"></script>
-<script src="assets/js/page/index.js"></script>
+<script src="assets/js/table/datatable.js"></script>
 </body>
 </html>

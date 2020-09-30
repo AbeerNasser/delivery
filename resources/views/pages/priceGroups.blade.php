@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -128,17 +128,19 @@
                             <a href="districts.html"><i class="fa fa-map-marker"></i><span data-hover="الأحياء">الأحياء</span></a>
                         </li>
 
-                        <li class="active">
-                            <a href="priceGroups.html"><i class="fa fa-cubes"></i><span data-hover="مجموعات التسعير">مجموعات التسعير</span></a>
-                        </li>
-
                         <li>
                             <a href="users.html"><i class="fa fa-users"></i><span data-hover="المستخدمين">المستخدمين</span></a>
                         </li>
 
               
+                        <li>
+                            <a href="offers.html"><i class="fa fa-gift"></i><span data-hover="العروض">العروض</span></a>
+                        </li>
+
                         <li class="g_heading">الإدارة والتقارير</li>
                         <li>
+                            <a href="support.html"><i class="fa fa-support"></i><span data-hover="الدعم الفني">الدعم الفني</span></a>
+                        </li>                        <li>
                         <a href="reports.html"><i class="fa fa-file"></i><span data-hover="التقارير">التقارير</span></a>
                         </li>
                         <li>

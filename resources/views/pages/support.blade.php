@@ -7,7 +7,7 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
-<title>الأحياء</title>
+<title>الدعم الفني</title>
 
 <!-- Bootstrap Core and vandor -->
 <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css" />
@@ -124,7 +124,7 @@
                             <a href="cities.html"><i class="fa fa-map"></i><span data-hover="المدن">المدن</span></a>
                         </li>
 
-                        <li class="active">
+                        <li>
                             <a href="districts.html"><i class="fa fa-map-marker"></i><span data-hover="الأحياء">الأحياء</span></a>
                         </li>
 
@@ -138,7 +138,7 @@
                         </li>
 
                         <li class="g_heading">الإدارة والتقارير</li>
-                        <li>
+                        <li class="active">
                             <a href="support.html"><i class="fa fa-support"></i><span data-hover="الدعم الفني">الدعم الفني</span></a>
                         </li>                        <li>
                         <a href="reports.html"><i class="fa fa-file"></i><span data-hover="التقارير">التقارير</span></a>
@@ -291,35 +291,37 @@
 
         <div class="section-body">
             <div class="container-fluid">
-            <a href="addNewDistrict.html" class="btn btn-danger btn-block">إضافة حي جديد</a><br />
                 <div class="row clearfix">
                     <div class="col-lg-12">
                         <div class="table-responsive mb-4">
                             <table class="table table-hover js-basic-example dataTable table_custom spacing5">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>الجهة</th>
+                                        <th>النوع</th>
+                                        <th>النص</th>
+                                        <th>رقم واتس اب للتواصل</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>الجهة</th>
+                                        <th>النوع</th>
+                                        <th>النص</th>
+                                        <th>رقم واتس اب للتواصل</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     <tr>
-                                        <td>1</td>
-                                        <td>الروضة</td>
-                                        <td>جده</td>
+                                        <td>مطعم</td>
+                                        <td>فقد الرقم السري للدخول</td>
+                                        <td>مشكلة في تسجيل الدخول للنظام</td>
+                                        <td>+966545412101</td>
                                         <td>
-                                            <a href="#" class="btn btn-secondary">تعديل</a>
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                            <a href="#" class="btn btn-success">معاينة</a>   
+                                            <a href="#" class="btn btn-secondary">مقروءة</a>                                                                            
                                         </td>
                                     </tr>
                                 </tbody>
