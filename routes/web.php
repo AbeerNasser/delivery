@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth/login');
 });
+// Route::get('users/create', function () {
+//     return view('pages/addNewUser');
+// });
 
 Auth::routes();
 // مدير دعم فني 
@@ -29,10 +32,17 @@ Route::middleware('admin')->prefix('admin/')->group(function () {
     Route::resource('districts','ControlPanel\DistrictController'); 
     Route::resource('cities','ControlPanel\cityController'); 
     Route::resource('groups','ControlPanel\GroupController'); 
+    Route::resource('PricingGroup','ControlPanel\PricingGroupController'); 
     Route::resource('delegats','ControlPanel\DelegateController'); 
     Route::resource('orders','ControlPanel\OrderController'); 
-    Route::resource('users','ControlPanel\userController'); 
+    Route::resource('users','ControlPanel\userController');  
+    //Route::get('/status/{id}/{st}','employeesController@editStatus');
     Route::resource('offers','ControlPanel\OfferController'); 
     Route::resource('support','ControlPanel\supportController'); 
-    Route::resource('settings','ControlPanel\settingsController'); 
+    Route::resource('settings','ControlPanel\SettingController'); 
+    //??
+    Route::resource('reports','ControlPanel\ReportController'); 
 });
+
+
+Route::view('forgot_password', 'auth.passwords.reset')->name('password.reset');

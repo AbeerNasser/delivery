@@ -33,7 +33,7 @@ class TechnicalSupportController extends Controller
         else
             $requestTechnicalSupport = CustomerSupport::create($data);
 
-        return $this -> returnData('requestNO',$requestTechnicalSupport->id,'تم تقديم الطلب بنجاح');
+        return $this -> returnData('data',$requestTechnicalSupport->id,'تم تقديم الطلب بنجاح');
     }
 
     public function requestTechnicalSupport(Request $request)
@@ -57,7 +57,7 @@ class TechnicalSupportController extends Controller
         else
             $requestTechnicalSupport = CustomerSupport::create($data);
 
-        return $this -> returnData('requestNO',$requestTechnicalSupport->id,'تم تقديم الطلب بنجاح');
+        return $this -> returnData('data',$requestTechnicalSupport->id,'تم تقديم الطلب بنجاح');
     }
 
    

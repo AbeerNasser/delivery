@@ -24,20 +24,20 @@ class OrderController extends Controller
         $enum = explode("','", $matches[1]);
 
         //all districts
-        $districts = District::get('name');
+        // $districts = District::get('name');
 
         //price for every district
-        $districtsPrice = DB::table('districts')
+        $districts = DB::table('districts')
             ->join('cities', 'districts.city_id', '=', 'cities.id')
             ->join('groups', 'cities.group_id', '=', 'groups.id')
             ->select('districts.id', 'districts.name', 'groups.price')
             ->get();
 
-        $data['districtsPrice']=$districtsPrice;
+        // $data['districtsPrice']=$districtsPrice;
         $data['enum']=$enum;
         $data['districts']=$districts;
       
-        return $this -> returnData('new order',$data,'سعر التوصيل لكل حي');
+        return $this -> returnData('data',$data,'سعر التوصيل لكل حي');
     }
 
     public function storeOrder(Request $request)
@@ -62,7 +62,7 @@ class OrderController extends Controller
 
         $order = Order::create($data);
 
-        return $this -> returnData('newOrder',$order,'تم تقديم الطلب بنجاح');
+        return $this -> returnData('data',$order,'تم تقديم الطلب بنجاح');
     }
 
     public function orderTracking(Request $request)
@@ -72,13 +72,21 @@ class OrderController extends Controller
         ->addSelect(['delegate_phone' => Delegate::select('phone')
         ->whereColumn('id', 'orders.delegate_id')])
         ->get();
-        return $this -> returnData('order',$order,'تتبع الطلب');
+        $ord = Restaurant::find($request -> id);
+        if(!$ord)
+            return $this->returnError('S001','');
+        return $this -> returnData('data',$order,'تتبع الطلب');  
     }
 
-    public function index()
+    public function restOrders(Request $request)
     {
-         $orders = Order::orderBy('created_at', 'desc')->get(['id','order_price','created_at']);
-        return $this -> returnData('orders',$orders,'الطلبات من الاحدث الي الاقدم');
+        $orders = Order::orderBy('created_at', 'desc')->where('restaurant_id',$request->id)->get();
+        
+        $ord = Restaurant::find($request -> id);
+        if(!$ord)
+            return $this->returnError('S001','');
+        return $this -> returnData('data',$orders,'الطلبات من الاحدث الي الاقدم');
+
     }
 
     public function show(Request $request)
@@ -86,7 +94,7 @@ class OrderController extends Controller
         $order = Order::find($request -> id);
         if(!$order)
             return $this->returnError('001','هذاالطلب غير موجود');
-        return $this -> returnData('order',$order,'تم جلب البيانات الطلب بنجاح');
+        return $this -> returnData('data',$order,'تم جلب البيانات الطلب بنجاح');
     }
 
 //get all active users only

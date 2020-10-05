@@ -42,7 +42,7 @@ class AuthRestaurantController extends Controller
             $admin = Auth::guard('restaurant-api') -> user();
             $admin -> api_token = $token;
             //return token
-             return $this -> returnData('restaurantAdmin' , $admin,'تم الدخول كمطعم بنجاح');
+            return $this -> returnData('data' , $admin,'تم الدخول كمطعم بنجاح');
 
         }catch (\Exception $ex){
             return $this->returnError($ex->getCode(), $ex->getMessage());
@@ -75,7 +75,7 @@ class AuthRestaurantController extends Controller
                 ['password' => bcrypt($request->password)]
             ));
 
-            return $this -> returnData('restaurantAdmin' , $restaurantAdmin,'تم تسجيل مطعم جديد بنجاح');
+            return $this -> returnData('data' , $restaurantAdmin,'تم تسجيل مطعم جديد بنجاح');
 
         }catch (\Exception $ex){
             return $this->returnError($ex->getCode(), $ex->getMessage());

@@ -1,55 +1,48 @@
 ﻿@extends('layouts.header')
 
-@section('title', 'الأحياء')
+@section('title', ' مستخدم جديد')
 @section('content')
-
         <div class="section-body">
             <div class="container-fluid">
-            <a href="districts/create" class="btn btn-danger btn-block">إضافة حي جديد</a><br />
                 <div class="row clearfix">
                     <div class="col-lg-12">
                         <div class="table-responsive mb-4">
                             <table class="table table-hover js-basic-example dataTable table_custom spacing5">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المستخدم</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>الرتبة</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المستخدم</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>الرتبة</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    @if (count($districts)==0)
-                                        <tr>
-                                            <td>No Districts</td>
-                                        </tr>
-                                    @else
-                                        @foreach ($districts as $district)
-                                            <tr>
-                                                <td>{{$district->id}}</td>
-                                                <td>{{$district->name}}</td>
-                                                <td>{{$district->city['name']}}</td>
-                                                <td>                                 
-                                                    <a href="{{url('admin/districts/'.$district->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                    <form action="{{url('admin/districts/'.$district->id)}}" method="POST" class="d-inline-block">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
+                                    <tr>
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$user->email}}</td>
+                                        <td>{{$user->role}}</td>
+                                        <td>
+                                            <a href="{{url('admin/users')}}" class="btn btn-danger">عرض الكل</a>                                   
+                                            <a href="{{url('admin/users/'.$user->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#disableModal">تعطيل مؤقت</button>
+                                            <form action="{{url('admin/users/'.$user->id)}}" method="POST" class="d-inline-block">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
+                            {{-- <div>{{ $user->links() }}</div> --}}
                         </div>
                     </div>                
                 </div>
@@ -103,7 +96,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>هل أنت متأكد من تعطيل هذا المطعم ؟</p>
+                <p>هل أنت متأكد من تعطيل هذا المستخدم ؟</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger">تأكيد</button>
@@ -112,5 +105,6 @@
         </div>
     </div>
 </div> 
+
 
 @endsection

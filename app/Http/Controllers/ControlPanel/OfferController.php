@@ -4,17 +4,21 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+// use App\Models\Offer;
 
 class OfferController extends Controller
 {
-    /**
+    /** 
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        // $offers = Offers::get();
+        // return view('pages/offers', ['offers' => $offers]);
+
+        return view('pages/offers');
     }
 
     /**

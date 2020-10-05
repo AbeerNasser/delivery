@@ -22,7 +22,7 @@ class RestaurantController extends Controller
         // $city = District::with('city')->get();
         // $groupName = City::with('group')->get();
         $restaurants = Restaurant::get();
-        return $this -> returnData('restaurants',$restaurants);
+        return $this -> returnData('data',$restaurants);
     }
 
     public function show(Request $request)
@@ -30,6 +30,6 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::find($request -> id);
         if(!$restaurant)
             return $this->returnError('001','هذاالمطعم غير موجود');
-        return $this -> returnData('restaurant',$restaurant,'تم جلب البيانات بنجاح');
+        return $this -> returnData('data',$restaurant,'تم جلب البيانات بنجاح');
     }
 }

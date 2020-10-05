@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ControlPanel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class SettingController extends Controller
+class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('pages/settings');
+        return view('pages/reports');
     }
 
     /**

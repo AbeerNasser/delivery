@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\City;
 
 class cityController extends Controller
 {
@@ -14,7 +15,8 @@ class cityController extends Controller
      */
     public function index()
     {
-        return view('pages/cities');
+        $cities = City::get();
+        return view('pages/cities', ['cities' => $cities]);
     }
 
     /**
@@ -24,7 +26,7 @@ class cityController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages/addNewCity');
     }
 
     /**
@@ -35,7 +37,13 @@ class cityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required',
+        ]);
+
+        $city = City::create($data);
+
+        return redirect('admin/cities')->with('success','inserted');
     }
 
     /**
@@ -57,7 +65,8 @@ class cityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $city = City::find($id);
+        return view('pages/addNewCity', ['city' => $city]);
     }
 
     /**
@@ -69,7 +78,13 @@ class cityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data=$request->validate([
+            'name'=>'required',
+        ]);
+
+        $city = City::where('id', '=', $id)->update($data);
+
+        return redirect('admin/cities')->with('success','updated');
     }
 
     /**

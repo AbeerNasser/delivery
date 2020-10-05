@@ -17,7 +17,7 @@ class Delegate extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'password','sn_img','delegate_status','notes','created_at','updated_at'
+        'name', 'phone', 'password','sn_no','sn_img','delegate_status','notes','created_at','updated_at'
     ];
 
     /**

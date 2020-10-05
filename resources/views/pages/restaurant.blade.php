@@ -1,53 +1,46 @@
 ﻿@extends('layouts.header')
 
-@section('title', 'الأحياء')
+@section('title', 'المطاعم')
 @section('content')
-
         <div class="section-body">
             <div class="container-fluid">
-            <a href="districts/create" class="btn btn-danger btn-block">إضافة حي جديد</a><br />
                 <div class="row clearfix">
                     <div class="col-lg-12">
                         <div class="table-responsive mb-4">
                             <table class="table table-hover js-basic-example dataTable table_custom spacing5">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المطعم</th>
+                                        <th>عنوان المطعم</th>
+                                        <th>الإيميل</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>#</th>
-                                        <th>الحي</th>
-                                        <th>المدينة</th>
+                                        <th>إسم المطعم</th>
+                                        <th>عنوان المطعم</th>
+                                        <th>الإيميل</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    @if (count($districts)==0)
-                                        <tr>
-                                            <td>No Districts</td>
-                                        </tr>
-                                    @else
-                                        @foreach ($districts as $district)
-                                            <tr>
-                                                <td>{{$district->id}}</td>
-                                                <td>{{$district->name}}</td>
-                                                <td>{{$district->city['name']}}</td>
-                                                <td>                                 
-                                                    <a href="{{url('admin/districts/'.$district->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                    <form action="{{url('admin/districts/'.$district->id)}}" method="POST" class="d-inline-block">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
+                                    <tr>
+                                        <td>{{$restaurant->name}}</td>
+                                        <td>{{$restaurant->address}},{{$restaurant->district_name}},{{$restaurant->city_name}}</td>
+                                        <td>{{$restaurant->email}}</td>
+                                        <td>
+                                            <a href="{{url('admin/restaurants/')}}" class="btn btn-danger">عرض الكل</a>                                   
+                                            <a href="{{url('admin/restaurants/'.$restaurant->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
+                                            <a href="{{url('admin/PricingGroup')}}" class="btn btn-secondary"><i class="fa fa-usd"></i> مجموعات التسعير </a>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#disableModal">تعطيل مؤقت</button>
+                                            <form action="{{url('admin/restaurants/'.$restaurant->id)}}" method="POST" class="d-inline-block">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr> 
                                 </tbody>
                             </table>
                         </div>
@@ -68,8 +61,6 @@
                 </div>
             </footer>
         </div>
-    </div>
-</div>
 
 <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

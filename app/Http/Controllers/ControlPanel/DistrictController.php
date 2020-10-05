@@ -4,6 +4,9 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\District;
+use App\Models\City;
+use DB;
 
 class DistrictController extends Controller
 {
@@ -14,7 +17,9 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        return view('pages/districts');
+        $districts = District::with('city')->get();
+        //dd($districts);
+        return view('pages/districts', ['districts' => $districts]);
     }
 
     /**
@@ -24,7 +29,8 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        //
+        $cities=City::get(['name','id']);
+        return view('pages/addNewDistrict',['cities' => $cities]);
     }
 
     /**
@@ -35,7 +41,16 @@ class DistrictController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $data = $request->validate([
+            'name'=>'required',
+            'city'=>'required',
+        ]);
+
+        $data['city_id']= $request->city;
+        $district = District::create($data);
+
+        return redirect('admin/districts')->with('success','inserted');
     }
 
     /**
@@ -57,7 +72,9 @@ class DistrictController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cities=City::get(['name','id']);
+        $district = District::find($id);
+        return view('pages/addNewDistrict', ['district' => $district,'cities' => $cities]);
     }
 
     /**
@@ -69,7 +86,15 @@ class DistrictController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'city'=>'required',
+        ]);
+        $data['name'] = $request->input('name');
+        $data['city_id']= $request->city;
+        $district = District::where('id', '=', $id)->update($data);
+
+        return redirect('admin/districts')->with('success','updated');
     }
 
     /**
@@ -80,6 +105,9 @@ class DistrictController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $district = District::findOrFail($id);
+        $district->delete();
+        //$district = DB::delete('delete from districts where id = ?',[$id]);
+        return redirect('admin/districts');
     }
 }

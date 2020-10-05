@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class District extends Model
 {
+    protected $fillable = [
+        'name','city_id'
+    ];
     public function city()
     {
         return $this->belongsTo('App\Models\City');

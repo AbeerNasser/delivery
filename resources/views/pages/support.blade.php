@@ -67,15 +67,19 @@
 
     <!-- start User detail -->
     <div class="user_div">
-        <h5 class="brand-name mb-4">إسم المستخدم<a href="javascript:void(0)" class="user_btn"><i class="icon-close"></i></a></h5>
+        <h5 class="brand-name mb-4">
+            {{ Auth::user()->name }}
+            <a href="javascript:void(0)" class="user_btn">
+                <i class="icon-close"></i>
+            </a>
+        </h5>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">بيانات المستخدم</h5>
+                <h5 class="card-title">بيانات {{ Auth::user()->name }}</h5>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">name@faster-delivery.com</li>
-                <li class="list-group-item">+ 202-555-2828</li>
-                <li class="list-group-item">مسؤول عام</li>
+                <li class="list-group-item">{{ Auth::user()->email }}</li>
+                <li class="list-group-item">{{ Auth::user()->role }}</li>
             </ul>
         </div>
     </div>

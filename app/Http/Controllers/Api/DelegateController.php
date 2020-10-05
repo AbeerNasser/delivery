@@ -19,7 +19,7 @@ class DelegateController extends Controller
         $orders = Order::select('id','created_at')->where('order_status','==',0)->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id')
         ])->get();
-        return $this -> returnData('orders',$orders,'الطلبات المتاحه للتوصيل');
+        return $this -> returnData('data',$orders,'الطلبات المتاحه للتوصيل');
     }
 
     public function OrderDetails(Request $request)
@@ -31,15 +31,15 @@ class DelegateController extends Controller
         ->whereColumn('id', 'orders.restaurant_id')
         ])->find($request -> id);
 
-        return $this -> returnData('order',$order,'تفاصيل الطلب');
+        return $this -> returnData('data',$order,'تفاصيل الطلب');
     }
 
     public function allMyOrders(Request $request)
     {
-        $orders = Order::select('id','order_status')->where('delegate_id','=', $request->id)->addSelect(['restaurant_name' => Restaurant::select('name')
+        $orders = Order::select('id','order_status','total_price','order_price','created_at')->where('delegate_id','=', $request->id)->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id')
         ])->get();
-        return $this -> returnData('myOrders',$orders,'جميع طلباتي');
+        return $this -> returnData('data',$orders,'جميع طلباتي');
     }
 
     public function myOrderDetails(Request $request)
@@ -49,12 +49,14 @@ class DelegateController extends Controller
         ->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id'),
         'restaurant_address' => Restaurant::select('address')
-        ->whereColumn('id', 'orders.restaurant_id')
-        ])->find($request -> id);
+        ->whereColumn('id', 'orders.restaurant_id')])
+        ->addSelect(['delegate_status' => Delegate::select('delegate_status')
+        ->whereColumn('id', 'orders.delegate_id')])
+        ->find($request -> id);
 
         $order -> delivery_price = $order->total_price - $order -> order_price;
 
-        return $this -> returnData('myOrder',$order,'تفاصيل الطلب');
+        return $this -> returnData('data',$order,'تفاصيل الطلب');
     }
 
     public function myOrdersOnDelivery(Request $request)
@@ -63,8 +65,10 @@ class DelegateController extends Controller
         ->where('delegate_id','=', $request->id)
         ->where('order_status','==', 0)
         ->addSelect(['restaurant_name' => Restaurant::select('name')
-        ->whereColumn('id', 'orders.restaurant_id')
-        ])->get();
-        return $this -> returnData('myDeliveryOrders',$orders,'طلباتي التي قيد التوصيل حتي الان');
+        ->whereColumn('id', 'orders.restaurant_id')])
+        ->addSelect(['delegate_status' => Delegate::select('delegate_status')
+        ->whereColumn('id', 'orders.delegate_id')])
+        ->get();
+        return $this -> returnData('data',$orders,'طلباتي التي قيد التوصيل حتي الان');
     }
 }

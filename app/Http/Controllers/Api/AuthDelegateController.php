@@ -42,7 +42,7 @@ class AuthDelegateController extends Controller
             $delegateAdmin = Auth::guard('delegate-api') -> user();
             $delegateAdmin -> api_token = $token;
             //return token
-             return $this -> returnData('delegateAdmin' , $delegateAdmin,'تم الدخول كمندوب بنجاح');
+             return $this -> returnData('data' , $delegateAdmin,'تم الدخول كمندوب بنجاح');
 
         }catch (\Exception $ex){
             return $this->returnError($ex->getCode(), $ex->getMessage());
@@ -101,7 +101,7 @@ class AuthDelegateController extends Controller
                 ['password' => bcrypt($request->password)]
             ));
 
-            return $this -> returnData('delegateUser' , $delegateUser,'تم تسجيل مندوب جديد بنجاح');
+            return $this -> returnData('data' , $delegateUser,'تم تسجيل مندوب جديد بنجاح');
 
         }catch (\Exception $ex){
             return $this->returnError($ex->getCode(), $ex->getMessage());

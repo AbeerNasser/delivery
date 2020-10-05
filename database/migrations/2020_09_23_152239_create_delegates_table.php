@@ -17,7 +17,8 @@ class CreateDelegatesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('sn_img');
-            $table->boolean('delegate_status');
+            $table->string('sn_no');
+            $table->integer('delegate_status')->default(0);
             $table->string('password');
             $table->string('phone');
             $table->text('notes')->nullable();

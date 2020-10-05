@@ -12,13 +12,14 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
     Route::group(['prefix' => 'restaurant'],function (){
         Route::post('register', 'Api\AuthRestaurantController@register');
         Route::post('login', 'Api\AuthRestaurantController@login');
-        
+        Route::post('password/email', 'Api\ForgotPasswordController@forgot');
+        Route::post('password/reset', 'Api\ForgotPasswordController@reset');
         Route::group(['middleware' => ['checkRestaurantToken::restaurant-api']], function () {
             Route::post('getRestaurantByID', 'Api\RestaurantController@show');
             Route::post('newOrder', 'Api\OrderController@createOrder');
             Route::post('confirmOrder', 'Api\OrderController@storeOrder');
             Route::post('orderTracking', 'Api\OrderController@orderTracking');
-            Route::post('allOrders', 'Api\OrderController@index');
+            Route::post('allOrders', 'Api\OrderController@restOrders');
             Route::post('getOrderByID', 'Api\OrderController@show');
 
             Route::post('requestTechnicalSupport', 'Api\TechnicalSupportController@requestTechnicalSupport');
@@ -31,7 +32,7 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
     Route::group(['prefix' => 'delegate'],function (){
         Route::post('register', 'Api\AuthDelegateController@register');
         Route::post('login', 'Api\AuthDelegateController@login');
-        
+        Route::post('delegateForgot', 'Api\ForgotPasswordController@delegateForgot');
         Route::group(['middleware' => ['checkDelegateToken::delegate-api']], function () {
 
             Route::post('availableOrdersDelivery','Api\DelegateController@AvailableOrdersDelivery');

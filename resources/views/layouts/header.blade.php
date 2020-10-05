@@ -9,15 +9,26 @@
         <link rel="icon" href="{!! asset('favicon.ico') !!}"/>
         
         <!-- Bootstrap Core and vandor -->
-        <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
 
         <!-- Plugins css -->
-        <link rel="stylesheet" href="../assets/plugins/charts-c3/c3.min.css"/>
-        <link rel="stylesheet" href="../assets/plugins/jvectormap/jvectormap-2.0.3.css" />
-
-        <!-- Core css -->
-        <link rel="stylesheet" href="../assets/css/main.css"/>
-        <link rel="stylesheet" href="../assets/css/theme1.css" id="stylesheet"/>
+        <link rel="stylesheet" href="{{asset('assets/plugins/charts-c3/c3.min.css')}}"/>
+        <link rel="stylesheet" href="{{asset('assets/plugins/jvectormap/jvectormap-2.0.3.css')}}" />
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/dataTables.bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/plugins/datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css')}}">
+        <style>
+            td.details-control {
+            background: url('{{asset('../assets/images/details_open.png')}}') no-repeat center center;
+            cursor: pointer;
+        }
+            tr.shown td.details-control {
+                background: url('{{asset('assets/images/details_close.png')}}') no-repeat center center;
+            }
+        </style>
+        <!-- Core  css -->
+        <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
+        <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}" id="stylesheet"/>
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
     </head>
 
@@ -37,34 +48,37 @@
                 <div class="container">
                     <div class="hleft">
                         <div class="dropdown">
-                            <a href="javascript:void(0)" class="nav-link user_btn"><img class="avatar" src="../assets/images/user.png" alt=""/></a>
-                            <a href="index.html" class="nav-link icon"><i class="fa fa-home"></i></a>
-                            <a href="users.html"  class="nav-link icon app_inbox"><i class="fa fa-users"></i></a>
-                            <a href="orders.html"  class="nav-link icon xs-hide"><i class="fa fa-shopping-cart"></i></a>
-                            <a href="restaurants.html"  class="nav-link icon app_file xs-hide"><i class="fa fa-university"></i></a>
+                            <a href="javascript:void(0)" class="nav-link user_btn"><img class="avatar" src="{{asset('assets/images/user.png')}}" alt=""/></a>
+                            <a href="{{url('admin/home')}}" class="nav-link icon"><i class="fa fa-home"></i></a>
+                            <a href="{{url('admin/users')}}"  class="nav-link icon app_inbox"><i class="fa fa-users"></i></a>
+                            <a href="{{url('admin/orders')}}"  class="nav-link icon xs-hide"><i class="fa fa-shopping-cart"></i></a>
+                            <a href="{{url('admin/restaurants')}}"  class="nav-link icon app_file xs-hide"><i class="fa fa-university"></i></a>
                         </div>
                     </div>
                     <div class="hright">
                         <div class="dropdown">
-                            <a href="reports.html" class="nav-link icon settingbar"><i class="fa fa-file"></i></a>
+                            <a href="{{url('admin/reports')}}" class="nav-link icon settingbar"><i class="fa fa-file"></i></a>
                             <a href="javascript:void(0)" class="nav-link icon menu_toggle"><i class="fa fa-navicon"></i></a>
                         </div>            
                     </div>
                 </div>
             </div>
 
-
             <!-- start User detail -->
             <div class="user_div">
-                <h5 class="brand-name mb-4">إسم المستخدم<a href="javascript:void(0)" class="user_btn"><i class="icon-close"></i></a></h5>
+                <h5 class="brand-name mb-4">
+                    {{ Auth::user()->name }}
+                    <a href="javascript:void(0)" class="user_btn">
+                        <i class="icon-close"></i>
+                    </a>
+                </h5>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">بيانات المستخدم</h5>
+                        <h5 class="card-title">بيانات {{ Auth::user()->name }}</h5>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">name@faster-delivery.com</li>
-                        <li class="list-group-item">+ 202-555-2828</li>
-                        <li class="list-group-item">مسؤول عام</li>
+                        <li class="list-group-item">{{ Auth::user()->email }}</li>
+                        <li class="list-group-item">{{ Auth::user()->role }}</li>
                     </ul>
                 </div>
             </div>
@@ -94,62 +108,72 @@
                     <div class="tab-pane fade active show" id="all-tab">
                         <nav class="sidebar-nav">
                             <ul class="metismenu ci-effect-1">
-
                                 <li class="g_heading">رئيسية النظام</li>
                                 <li class="active">
-                                    <a href="index.html"><i class="fa fa-home"></i><span data-hover="الصفحة الرئيسية">الصفحة الرئيسية</span></a>
+                                    <a href="{{url('admin/home')}}"><i class="fa fa-home"></i>
+                                        <span data-hover="الصفحة الرئيسية">الصفحة الرئيسية</span>
+                                    </a>
                                 </li>
 
                                 <li class="g_heading">أساسيات النظام</li>
                                 <li>
-                                    <a href="{{url('admin/restaurants')}}"><i class="fa fa-university"></i>
+                                    <a href="{{url('admin/restaurants')}}">
+                                        <i class="fa fa-university"></i>
                                         <span data-hover="المطاعم">المطاعم</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{url('admin/delegats')}}"><i class="fa fa-male"></i>
+                                    <a href="{{url('admin/delegats')}}">
+                                        <i class="fa fa-male"></i>
                                         <span data-hover="المناديب">المناديب</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{url('admin/cities')}}"><i class="fa fa-map"></i>
+                                    <a href="{{url('admin/cities')}}">
+                                        <i class="fa fa-map"></i>
                                         <span data-hover="المدن">المدن</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{url('admin/districts')}}"><i class="fa fa-map-marker"></i>
+                                    <a href="{{url('admin/districts')}}">
+                                        <i class="fa fa-map-marker"></i>
                                         <span data-hover="الأحياء">الأحياء</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{url('admin/users')}}"><i class="fa fa-users"></i>
+                                    <a href="{{url('admin/users')}}">
+                                        <i class="fa fa-users"></i>
                                         <span data-hover="المستخدمين">المستخدمين</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{url('admin/offers')}}"><i class="fa fa-gift"></i>
+                                    <a href="{{url('admin/offers')}}">
+                                        <i class="fa fa-gift"></i>
                                         <span data-hover="العروض">العروض</span>
                                     </a>
                                 </li>
                     
                                 <li class="g_heading">الإدارة والتقارير</li>
                                 <li>
-                                    <a href="{{url('admin/supprot')}}"><i class="fa fa-support"></i>
+                                    <a href="{{url('admin/support')}}">
+                                        <i class="fa fa-support"></i>
                                         <span data-hover="الدعم الفني">الدعم الفني</span>
                                     </a>
                                 </li>
                                 <li>
-                                <a href="{{url('admin/reports')}}"><i class="fa fa-file"></i>
+                                <a href="{{url('admin/reports')}}">
+                                    <i class="fa fa-file"></i>
                                     <span data-hover="التقارير">التقارير</span>
                                 </a>
                                 </li>
                                 <li>
-                                <a href="{{url('admin/settings')}}"><i class="fa fa-cogs"></i>
+                                <a href="{{url('admin/settings')}}">
+                                    <i class="fa fa-cogs"></i>
                                     <span data-hover="الإعدادات">الإعدادات</span>
                                 </a>
                                 </li>
@@ -275,26 +299,59 @@
                     </div>
                 </div>
             </div>
+            <!-- start main body part-->
+            <div class="page">
 
-            <div>
-                @yield('content')
-            </div>
+                <!-- start body header -->
+                <div id="page_top" class="section-body">
+                    <div class="container-fluid">
+                        <div class="page-header">
+                            <div class="left">
+                                <h1 class="page-title"> تطبيق | Faster Delivery - التوصيل الأسرع</h1>
+                            </div>
+                            <div class="right">
+                                <div class="notification d-flex">
+                                    <a href="{{url('admin/support')}}" class="btn btn-facebook">
+                                        <i class="fa fa-info-circle mr-2"></i>الدعم الفني
+                                    </a>
+
+                                    <a type="button" class="btn btn-facebook" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-power-off mr-2"></i>تسجيل الخروج
+                                    </a>
         
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    @yield('content')
+                </div>
+            </div>
         </div>
-
         <!-- jQuery and bootstrtap js -->
-        <script src="../assets/bundles/lib.vendor.bundle.js"></script>
+        <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
 
         <!-- start plugin js file  -->
-        <script src="../assets/bundles/apexcharts.bundle.js"></script>
-        <script src="../assets/bundles/counterup.bundle.js"></script>
-        <script src="../assets/bundles/knobjs.bundle.js"></script>
-        <script src="../assets/bundles/c3.bundle.js"></script>
-        <script src="../assets/bundles/flot.bundle.js"></script>
-        <script src="../assets/bundles/jvectormap1.bundle.js"></script>
+        <script src="{{asset('assets/bundles/apexcharts.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/counterup.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/knobjs.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/c3.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/flot.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/jvectormap1.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/selectize.bundle.js')}}"></script>
+        <script src="{{asset('assets/bundles/dataTables.bundle.js')}}"></script>
 
         <!-- Start core js and page js -->
-        <script src="../assets/js/core.js"></script>
-        <script src="assets/js/page/index.js"></script>
+        <script src="{{asset('assets/js/core.js')}}"></script>
+        <script src="{{asset('assets/js/page/index.js')}}"></script>
+        <script src="{{asset('assets/js/vendors/selectize.js')}}"></script>
+        <script src="{{asset('assets/js/table/datatable.js')}}"></script>
+
     </body>
 </html>
