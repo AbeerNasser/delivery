@@ -19,10 +19,10 @@ class CreateOrdersTable extends Migration
             $table->string('address');
             $table->float('order_price');
             $table->float('total_price');
-            $table->boolean('order_status')->default(0)->nullable();
+            $table->integer('order_status')->default(0)->nullable();
             $table->enum('payment_way', ['cash','vesa']);
             $table->text('notes')->nullable();
-            $table->timestamp('date');
+            $table->integer('date');
             $table->unsignedBigInteger('delegate_id');
             $table->foreign('delegate_id')->references('id')->on('delegates');
             $table->unsignedBigInteger('restaurant_id');

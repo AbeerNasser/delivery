@@ -16,7 +16,10 @@ class DelegateController extends Controller
 
     public function AvailableOrdersDelivery()
     {
-        $orders = Order::select('id','created_at')->where('order_status','==',0)->addSelect(['restaurant_name' => Restaurant::select('name')
+        $orders = Order::select('id','created_at')
+        ->where('order_status','==',0)
+        ->where('delegate_id',null)
+        ->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id')
         ])->get();
         return $this -> returnData('data',$orders,'الطلبات المتاحه للتوصيل');
@@ -44,7 +47,8 @@ class DelegateController extends Controller
 
     public function myOrderDetails(Request $request)
     {
-        $order = Order::select('total_price','order_price','address','order_status')
+        $order = Order::select('total_price','order_price','address',
+        'order_status','date')
         ->where('delegate_id','=', $request->delegate_id)
         ->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id'),
@@ -61,14 +65,94 @@ class DelegateController extends Controller
 
     public function myOrdersOnDelivery(Request $request)
     {
-        $orders = Order::select('id')
+        $orders = Order::select('id','order_status')
         ->where('delegate_id','=', $request->id)
-        ->where('order_status','==', 0)
+        ->where('order_status','!=', 2)
         ->addSelect(['restaurant_name' => Restaurant::select('name')
-        ->whereColumn('id', 'orders.restaurant_id')])
-        ->addSelect(['delegate_status' => Delegate::select('delegate_status')
-        ->whereColumn('id', 'orders.delegate_id')])
-        ->get();
+        ->whereColumn('id', 'orders.restaurant_id')])->get();
+        // ->addSelect(['delegate_status' => Delegate::select('delegate_status')
+        // ->whereColumn('id', 'orders.delegate_id')])
+        
         return $this -> returnData('data',$orders,'طلباتي التي قيد التوصيل حتي الان');
     }
+
+    public function chooseOrder(Request $request)
+   {
+        $data =$request->all();
+        
+        $delegateStatus=Delegate::where('id',$request->delegate_id)
+        ->pluck('delegate_status')->first();
+
+        if ($delegateStatus==0) {
+
+            $order = DB::table('orders')
+            ->where('id', $request->order_id)
+            ->update(['order_status' => 0,'delegate_id'=>$request->delegate_id,'date'=>\Carbon\Carbon::parse($request->date)->timestamp]);
+            
+            $delegateStatus = DB::table('delegates')
+           ->where('id', $request->delegate_id)
+           ->update(['delegate_status' => 1]);
+
+
+            return $this -> returnData('data',$order,'تم اختيار الطلب');   
+        } 
+        return $this -> returnError('000','هذا المندوب  معه طلب اخر');
+   }
+
+   public function startDelivery(Request $request)
+   {
+        $data =$request->all();
+        
+        $delegateStatus=Delegate::where('id',$request->delegate_id)
+        ->pluck('delegate_status')->first();
+
+        
+       $deledateID=Order::where('delegate_id',$request->delegate_id)->pluck('id')->first();
+
+        if ($delegateStatus==1 && $deledateID) {
+            $order = DB::table('orders')
+            ->where('id', $request->order_id)
+            ->update(['order_status' => 1]);
+
+            return $this -> returnData('data',$order,'تم قبول الطلب');
+        }
+        return $this -> returnError('000','');
+   }
+
+   public function finishRequest(Request $request)
+   {
+        $data =$request->all();
+        
+        $delegateStatus=Delegate::where('id',$request->delegate_id)
+        ->pluck('delegate_status')->first();
+
+        
+       $deledateID=Order::where('delegate_id',$request->delegate_id)->pluck('id')->first();
+
+        // if ($delegateStatus==1 && $deledateID) {
+        //      $order = DB::table('orders')
+        //     ->where('id', $request->order_id)
+        //     ->update(['order_status' => 1]);
+
+        //     return $this -> returnData('data',$order,' تم استلام الطلب من المطعم');
+        // }
+        if ($delegateStatus==1 && $deledateID) {
+            $order = DB::table('orders')
+           ->where('id', $request->order_id)
+           ->update(['order_status' => 2]);
+           $delegateStatus = DB::table('delegates')
+           ->where('id', $request->delegate_id)
+           ->update(['delegate_status' => 0]);
+
+           return $this -> returnData('data',$order,' تم تسليم الطلب الي العميل');
+       }
+        return $this -> returnError('000','');
+   }
+
+//    public function editStatus($id, $st){
+//         // return 'id'. $id . ' st '. $st;
+//         DB::update('update employee set status=? where employeeid =?', [!$st,$id]);
+//         return back();
+//     }
+
 }

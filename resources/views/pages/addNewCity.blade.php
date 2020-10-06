@@ -29,17 +29,15 @@
                             @endif
                             @csrf
                             <div class="card-body">
-                                <h3>{{$flag ? ' تعديل بيانات المدينة' : 'إضافة مدينه جديدة'}} </h3>
+                                <h3>{{$flag ? 'تعديل بيانات المدينة' : 'إضافة مدينه جديدة'}} </h3>
                                 <hr /><br />
                                 <div class="row">
-
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">إسم المدينة</label>
                                             <input type="text" class="form-control" name="name" value="{{ $flag ? $city->name : ''}}">
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="card-footer text-right">
