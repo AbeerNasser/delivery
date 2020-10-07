@@ -43,8 +43,11 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
             Route::post('chooseOrder', 'Api\DelegateController@chooseOrder');
             Route::post('finishRequest', 'Api\DelegateController@finishRequest');
             Route::post('myOrderDetails', 'Api\DelegateController@myOrderDetails');
-            Route::post('wallet', 'Api\walletController@my');
+            Route::post('myNotify', 'Api\NotificationController@getNotifications');
             Route::post('requestDelegateTechnicalSupport', 'Api\TechnicalSupportController@requestDelegateTechnicalSupport');
+            Route::post('wallet', 'Api\walletController@addToWallet');
+            
+            
             //Route::post('confirmOrder', 'OrderController@storeOrder');
             // Route::post('orderTracking', 'OrderController@orderTracking');
             // Route::post('allOrders', 'OrderController@index');                   

@@ -39,6 +39,11 @@ class Delegate extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Models\CustomerSupport');
     }
 
+    public function wallet()
+    {
+        return $this->belongsTo('App\Models\Wallet');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

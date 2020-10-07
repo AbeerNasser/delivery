@@ -22,10 +22,10 @@ class CreateOrdersTable extends Migration
             $table->integer('order_status')->default(0)->nullable();
             $table->enum('payment_way', ['cash','vesa']);
             $table->text('notes')->nullable();
-            $table->integer('date');
-            $table->unsignedBigInteger('delegate_id');
+            $table->integer('date')->nullable();
+            $table->unsignedBigInteger('delegate_id')->nullable();
             $table->foreign('delegate_id')->references('id')->on('delegates');
-            $table->unsignedBigInteger('restaurant_id');
+            $table->unsignedBigInteger('restaurant_id')->nullable();
             $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->timestamps();
         });

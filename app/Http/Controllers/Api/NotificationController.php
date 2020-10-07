@@ -1,20 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\ControlPanel;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Delegate;
+use App\Models\Order;
+use App\Models\Restaurant;
+use App\Models\Notification;
+use DB;
+use App\Traits\GeneralTrait;
 
 class NotificationController extends Controller
 {
+    use GeneralTrait;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getNotifications(Request $request)
     {
-        //
+        $notifications = Notification::select('*')
+        ->where('delegate_id',$request->delegate_id)
+        ->get();
+        return $this -> returnData('data',$notifications);
+    
     }
 
     /**

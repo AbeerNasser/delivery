@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use App\Traits\GeneralTrait;
 use App\Models\Delegate;
+use App\Models\Restaurant;
 
 
 class ForgotPasswordController extends Controller
@@ -15,22 +16,18 @@ class ForgotPasswordController extends Controller
 
     public function forgot() {
         $credentials = request()->validate(['email' => 'required|email']);
-
-        Password::sendResetLink($credentials);
-
-        // return response()->json(["msg" => 'Reset password link sent on your email id.']);
-        return $this -> returnSuccessMessage('تم ارسال رقم السر الجديد الي الايميل ');
-        //return response()->json(["msg" => 'تم ارسال رقم السر الجديد الي الايميل ']);
+        $email=Restaurant::where('email','=',$request->email)->pluck('id')->first();
+        if($email)
+            return $this -> returnSuccessMessage('تم ارسال رقم السر الجديد الي الايميل ');
+        return $this -> returnSuccessMessage('تحقق من هذا البريد');
     }
-    public function delegateForgot() {
+    public function delegateForgot(Request $request) {
 
         $credentials = request()->validate(['phone' => 'required']);
-
-        // Password::sendResetLink($credentials);
-
-        // return response()->json(["msg" => 'Reset password link sent on your email id.']);
-        return $this -> returnSuccessMessage('سيتم ارسال رقم السر الجديد في رساله');
-        //return response()->json(["msg" => 'تم ارسال رقم السر الجديد الي الايميل ']);
+        $phone=Delegate::where('phone','=',$request->phone)->pluck('id')->first();
+        if($phone)
+            return $this -> returnSuccessMessage('سيتم ارسال رقم السر الجديد في رساله');
+        return $this -> returnSuccessMessage('تحقق من رقم الجوال');
     }
 
     public function reset() {

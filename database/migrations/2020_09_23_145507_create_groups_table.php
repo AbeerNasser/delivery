@@ -17,6 +17,7 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->string('name');
             $table->float('price');
+            $table->float('percentage');
             $table->timestamps();
         });
     }

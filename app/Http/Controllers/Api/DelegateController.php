@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Delegate;
 use App\Models\Order;
+use App\Models\Wallet;
 use App\Models\Restaurant;
 use App\Models\CustomerSupport;
 use Illuminate\Http\Request;
@@ -39,7 +40,10 @@ class DelegateController extends Controller
 
     public function allMyOrders(Request $request)
     {
-        $orders = Order::select('id','order_status','total_price','order_price','created_at')->where('delegate_id','=', $request->id)->addSelect(['restaurant_name' => Restaurant::select('name')
+        $orders = Order::select('id','order_status','total_price','order_price','created_at')
+        ->where('delegate_id','=', $request->id)
+        ->where('order_status','=',2)
+        ->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id')
         ])->get();
         return $this -> returnData('data',$orders,'جميع طلباتي');
@@ -121,38 +125,53 @@ class DelegateController extends Controller
 
    public function finishRequest(Request $request)
    {
+        $total_price=0;  
         $data =$request->all();
         
         $delegateStatus=Delegate::where('id',$request->delegate_id)
         ->pluck('delegate_status')->first();
 
+       $orderStatus=Order::where('delegate_id',$request->delegate_id)->pluck('order_status')->first();
+
+        if ($delegateStatus==1 && $orderStatus==1) 
+        {
+            $order = Order::where('id', $request->order_id)
+            ->update(['order_status' => 2]);
+
+            $delegateStatus = Delegate::where('id', $request->delegate_id)
+            ->update(['delegate_status' => 0]);
+           
+            $ord = Order::where('delegate_id',$request->delegate_id)
+                ->join('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
+                ->join('districts', 'restaurants.district_id', '=', 'districts.id')
+                ->join('cities', 'districts.city_id', '=', 'cities.id')
+                ->join('groups', 'cities.group_id', '=', 'groups.id')
+                ->select('groups.price', 'groups.percentage')
+                ->first();
+           
+            $money = $ord -> price * $ord -> percentage;
+
+            $total_price  = $total_price + $money;
+
+            // $order -> money = $order -> price * $order -> percentage;
+            // $order-> total_price  = + $order -> money;
+
+            Wallet::insert(
+                ['order_id'=>$request->order_id,
+                'delegate_id' => $request->delegate_id,
+                'money' => $money,
+                'created_at'=>Carbon\Carbon::now(),
+                'updated_at'=> now()
+                ]
+            );
+           
         
-       $deledateID=Order::where('delegate_id',$request->delegate_id)->pluck('id')->first();
-
-        // if ($delegateStatus==1 && $deledateID) {
-        //      $order = DB::table('orders')
-        //     ->where('id', $request->order_id)
-        //     ->update(['order_status' => 1]);
-
-        //     return $this -> returnData('data',$order,' تم استلام الطلب من المطعم');
-        // }
-        if ($delegateStatus==1 && $deledateID) {
-            $order = DB::table('orders')
-           ->where('id', $request->order_id)
-           ->update(['order_status' => 2]);
-           $delegateStatus = DB::table('delegates')
-           ->where('id', $request->delegate_id)
-           ->update(['delegate_status' => 0]);
+            Delegate::where('id', $request->delegate_id)
+            ->update(['total_price' => $total_price]);
 
            return $this -> returnData('data',$order,' تم تسليم الطلب الي العميل');
        }
         return $this -> returnError('000','');
    }
-
-//    public function editStatus($id, $st){
-//         // return 'id'. $id . ' st '. $st;
-//         DB::update('update employee set status=? where employeeid =?', [!$st,$id]);
-//         return back();
-//     }
 
 }

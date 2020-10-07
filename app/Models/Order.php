@@ -18,4 +18,8 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Delegate');
     }
+    public function wallet()
+    {
+        return $this->belongsTo('App\Models\Wallet');
+    }
 }

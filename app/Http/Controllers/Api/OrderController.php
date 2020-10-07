@@ -72,7 +72,7 @@ class OrderController extends Controller
         ->addSelect(['delegate_phone' => Delegate::select('phone')
         ->whereColumn('id', 'orders.delegate_id')])
         ->get();
-        $ord = Restaurant::find($request -> id);
+        $ord = Order::find($request -> id);
         if(!$ord)
             return $this->returnError('S001','');
         return $this -> returnData('data',$order,'تتبع الطلب');  
@@ -97,13 +97,4 @@ class OrderController extends Controller
         return $this -> returnData('data',$order,'تم جلب البيانات الطلب بنجاح');
     }
 
-//get all active users only
-//     $users = App\User::all();
-
-// $names = $users->reject(function ($user) {
-//     return $user->active === false;
-// })
-// ->map(function ($user) {
-//     return $user->name;
-// });
 }
