@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use App\Models\District;
 use App\Models\City;
+use App\Models\Group;
 use DB;
+use Illuminate\Support\Facades\Hash;
 
 class RestController extends Controller
 {
@@ -15,6 +17,7 @@ class RestController extends Controller
     {
         $this->middleware('auth');
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +30,7 @@ class RestController extends Controller
         ->join('cities', 'districts.city_id', '=', 'cities.id')
         ->select('restaurants.*','cities.name as city_name', 'districts.name as district_name')
         ->get();
+        // ->take(4);
         // dd($restaurants);
         return view('pages/restaurants', ['restaurants' => $restaurants]);
     }
@@ -49,6 +53,7 @@ class RestController extends Controller
      */
     public function store(Request $request)
     {
+        
         $data = $request->validate([
             'name'=>'required',
             'address'=>'required',
@@ -56,6 +61,13 @@ class RestController extends Controller
             'password'=>'required|confirmed',
             'notes'=>'nullable|data',
         ]);
+
+        // $data['password']=$request->restaurant()->fill([
+        //     'password' => Hash::make($request->password)
+        // ])->save();
+
+        // $data['password'] = bcrypt($request->password);
+        $data=$request->all();
 
         $restaurant = Restaurant::create($data);
 
@@ -70,7 +82,6 @@ class RestController extends Controller
      */
     public function show($id)
     {
-        
         $restaurant = DB::table('restaurants')
         ->where('restaurants.id',$id)
         ->join('districts', 'restaurants.district_id', '=', 'districts.id')
@@ -79,6 +90,25 @@ class RestController extends Controller
         ->get();
 
         return view('pages/restaurant', ['restaurant' => $restaurant[0]]);
+    }
+
+    public function showGroups($id)
+    {
+        $groups = DB::table('restaurants')
+        ->join('districts', 'restaurants.district_id', '=', 'districts.id')
+        ->join('cities', 'districts.city_id', '=', 'cities.id')
+        ->join('groups', 'cities.group_id', '=', 'groups.id')
+        ->select('groups.*','cities.name as city_name','districts.name as district_name')
+        ->where('restaurants.id',$id)
+        ->get();
+        // $groups = DB::table('cities')
+        // ->join('groups', 'cities.group_id', '=', 'groups.id')
+        // ->select('groups.*','cities.name as city_name')
+        // ->get();
+
+        $districts=Restaurant::where('id',$id)->with('district')->get();
+        //dd($districts);
+        return view('pages/PricingGroup',['groups' => $groups,'districts' => $districts]);
     }
 
     /**
@@ -109,7 +139,8 @@ class RestController extends Controller
             'password'=>'required|confirmed',
             'notes'=>'nullable|data',
         ]);
-
+        //$data-> password =$request->password = bcrypt('JohnDoe');
+        $data=$request->except(['_method','_token','password_confirmation']);
         $restaurant = Restaurant::where('id', '=', $id)->update($data);
 
         return redirect('admin/restaurants')->with('succeess','updated');
@@ -123,17 +154,11 @@ class RestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $restaurant=DB::delete('delete from restaurants where id = ?',[$id]);
+        // return redirect('/restaurants');
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurant->delete();
+        
+        return redirect('admin/restaurants');
     }
-
-    // public function destroy(Artikel $artikel)
-    // {
-    //     $result = $artikel->delete();
-    //     if ($result == true){
-    //         http_response_code(204);
-    //     } else {
-    //         http_response_code(404);
-    //     }
-    //     return;
-    // }
 }

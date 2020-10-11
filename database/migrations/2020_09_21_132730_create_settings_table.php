@@ -24,10 +24,6 @@ class CreateSettingsTable extends Migration
             // $table->string('email');
             // $table->string('phone');
 
-            
-            // $table->integer('payment_type')->default(0)->comment('1-stripe/card, 2 - Paypal, 3 - Offline');
-            //$table->integer('status')->default(0)->comment('0 - in progress, 1 - Completed');
-
             $table->timestamps();
         });
     }

@@ -24,7 +24,7 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    {{-- @if (count($offers)==0)
+                                    @if (count($offers)==0)
                                         <tr>
                                             <td>No Offers</td>
                                         </tr>
@@ -32,28 +32,19 @@
                                         @foreach ($offers as $offer)
                                             <tr>
                                                 <td>{{$offer->name}}</td>
-                                                <td>{{$offers->email}}</td>
+                                                <td>{{$offer->email}}</td>
                                                 <td>
-                                                    <a href="{{url('admin/offers/'.$offer->id)}}" class="btn btn-danger">عرض</a>                                   
-                                                    <a href="{{url('admin/offers/'.$offer->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                    <a href="{{url('admin/PricingGroup')}}" class="btn btn-secondary"><i class="fa fa-usd"></i> مجموعات التسعير </a>
-                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#disableModal">تعطيل مؤقت</button>
-                                                    <form action="{{url('admin/offers/'.$offer->id)}}" method="POST" class="d-inline-block">
+                                                    <button type="button" data-id="{{$offer->id}}" class="btn btn-success" data-toggle="modal" data-target="#addModal">إضافة عرض</button>
+                                                    
+                                                    <form action="{{url('admin/users/'.$offer->id)}}" method="POST" class="d-inline-block">
                                                         @method('delete')
                                                         @csrf
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                                        <button type="button" class="btn btn-danger" >تعطيل العرض</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    @endif --}}
-                                    <tr>
-                                        <td>مطعم 1</td>
-                                        <td>rest@gmail.com</td>
-                                        <td>
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">إضافة عرض</button>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#disableModal">تعطيل العرض</button>
-                                        </td>
+                                    @endif
                                     </tr>
                                 </tbody>
                             </table>
@@ -90,58 +81,26 @@
             </div>
             <div class="modal-body">
                 <p style="color:red;">عروض التوصيل تقوم بخصم كامل قيمة التوصيل من المطعم ولكن تضاف للمندوب من الحساب الخاص للتطبيق</p>
-                <form>
+                {{-- <form class="card" method="put" action="{{url('admin/offers/'.$offer->id)}}"> --}}
+                <form class="card" method="post" id="userForm" action="">
+                    @method('PUT')
+                    @csrf
                     <div class="col-md-12">
                         <label>نسبة الخصم (نسبة مئوية)</label>
-                        <input type="number" class="form-control" />
+                        <input type="text" name="discount_per" class="form-control" />
                     </div>
-                    <br /><hr /><br />
-                    <div class="col-md-12">
+                    <div class="col-md-12 my-4">
                         <label>تطبيق الخصم حتى تاريخ</label>
-                        <input type="date" class="form-control" />
+                        <input type="date" name="date_per" class="form-control" />
                     </div>
-                    <br />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success">تأكيد تطبيق العرض</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                    <hr> 
+                    <div class="col-md-12 mt-2">
+                        <button type="submit" class="btn btn-success">تأكيد تطبيق العرض</button>
+                        <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">إلغاء</button>
+                    </div> 
+                </form>    
             </div>
         </div>
     </div>
-</div>   
-
-<!-- Disable Modal -->
-    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">تعطيل العرض على المتجر</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p style="color:red;">عروض التوصيل تقوم بخصم كامل قيمة التوصيل من المطعم ولكن تضاف للمندوب من الحساب الخاص للتطبيق</p>
-                <form>
-                    <div class="col-md-12">
-                        <label>نسبة الخصم (نسبة مئوية)</label>
-                        <input type="number" class="form-control" disabled/>
-                    </div>
-                    <br /><hr /><br />
-                    <div class="col-md-12">
-                        <label> الخصم حتى تاريخ</label>
-                        <input type="date" class="form-control" disabled/>
-                    </div>
-                    <br />
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد تعطيل العرض</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-            </div>
-        </div>
-    </div>
-</div> 
 
 @endsection

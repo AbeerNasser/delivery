@@ -4,6 +4,10 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Group;
+use App\Models\District;
+use App\Models\City;
+use DB;
 
 class PricingGroupController extends Controller
 {
@@ -11,10 +15,15 @@ class PricingGroupController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+    */
     public function index()
     {
-        return view('pages/PricingGroup');
+    //     $groups = DB::table('cities')
+    //     ->join('groups', 'cities.group_id', '=', 'groups.id')
+    //     ->select('groups.*','cities.name as city_name')
+    //     ->get();
+    //     $cities=City::get(['name','id']);
+    //     return view('pages/PricingGroup',['groups' => $groups,'cities' => $cities]);
     }
 
     /**
@@ -22,10 +31,10 @@ class PricingGroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
-    }
+        // 
+   }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +44,15 @@ class PricingGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->except('_token','_method');
+// dd($data);
+        // $restaurant = Restaurant::find($id); 
+        
+        // $data[ 'restaurant_id']=$restaurant->id;
+
+        $group = Group::insert($data);
+    
+        return redirect('admin/restaurants')->with('succeess','inserted');
     }
 
     /**
@@ -46,7 +63,7 @@ class PricingGroupController extends Controller
      */
     public function show($id)
     {
-        //
+       // 
     }
 
     /**
@@ -57,7 +74,7 @@ class PricingGroupController extends Controller
      */
     public function edit($id)
     {
-        //
+      //
     }
 
     /**
@@ -80,6 +97,7 @@ class PricingGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $groups=DB::delete('delete from groups where id = ?',[$id]);
+        // return redirect('pages/PricingGroup');
     }
 }

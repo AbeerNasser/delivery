@@ -40,8 +40,8 @@
                                             <label class="form-label">المدينة</label>
                                             <select class="form-control custom-select" name="city" value="{{ $flag ? $district->city : ''}}">
                                             <option value="">إختر ....</option>
-                                            @foreach($cities as $city )
-                                                <option value="{{$city->id}}">{{$city->name}}</option>
+                                                @foreach($cities as $city )
+                                                    <option value="{{$city->id}}">{{$city->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

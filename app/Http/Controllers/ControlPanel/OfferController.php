@@ -4,7 +4,8 @@ namespace App\Http\Controllers\ControlPanel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// use App\Models\Offer;
+use App\Models\Restaurant;
+use App\Models\Offer;
 
 class OfferController extends Controller
 {
@@ -15,10 +16,8 @@ class OfferController extends Controller
      */
     public function index()
     {
-        // $offers = Offers::get();
-        // return view('pages/offers', ['offers' => $offers]);
-
-        return view('pages/offers');
+        $offers = Restaurant::get();
+        return view('pages/offers', ['offers' => $offers]);
     }
 
     /**
@@ -39,7 +38,7 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
@@ -71,11 +70,32 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
-    }
+        $data=$request->except('_token','_method');
 
+        $restaurant = Restaurant::find($id); 
+        
+        $data[ 'restaurant_id']=$restaurant->id;
+
+        $offer = Offer::insert($data);
+        Restaurant::where('id',$restaurant->id)->update(['has_offer'=>1]);
+
+        return redirect('admin/offers')->with('succeess','inserted');
+    }
+    public function removeOffer($id)
+    {
+       // $data=$request->except('_token','_method');
+
+        $restaurant = Restaurant::find($id); 
+        
+        // $data[ 'restaurant_id']=$restaurant->id;
+
+        // $offer = Offer::insert($data);
+        Restaurant::where('id',$restaurant->id)->update(['has_offer'=>0]);
+
+        return redirect('admin/offers')->with('succeess','removed');
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -84,6 +104,11 @@ class OfferController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //change has_offer for restaurant 
+
+        $restaurant = Restaurant::find($id); 
+        Restaurant::where('id',$restaurant->id)->update(['has_offer'=>0]);
+
+        return redirect('admin/offers')->with('succeess','removed');
     }
 }

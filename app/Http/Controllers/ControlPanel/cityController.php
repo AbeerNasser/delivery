@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ControlPanel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\City;
+use App\Models\Group;
 
 class cityController extends Controller
 {
@@ -12,10 +13,11 @@ class cityController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+    */
     public function index()
     {
-        $cities = City::get();
+        $cities = City::with('group')->get();
+
         return view('pages/cities', ['cities' => $cities]);
     }
 
@@ -26,7 +28,8 @@ class cityController extends Controller
      */
     public function create()
     {
-        return view('pages/addNewCity');
+        $groups=Group::get(['name','id']);
+        return view('pages/addNewCity',['groups' => $groups]);
     }
 
     /**
@@ -37,10 +40,13 @@ class cityController extends Controller
      */
     public function store(Request $request)
     {
+        $data=$request->all();
         $data = $request->validate([
             'name'=>'required',
+            'group'=>'required',
         ]);
 
+        $data['group_id']= $request->group;
         $city = City::create($data);
 
         return redirect('admin/cities')->with('success','inserted');
@@ -65,8 +71,9 @@ class cityController extends Controller
      */
     public function edit($id)
     {
+        $groups=Group::get(['name','id']);
         $city = City::find($id);
-        return view('pages/addNewCity', ['city' => $city]);
+        return view('pages/addNewCity', ['city' => $city,'groups'=>$groups]);
     }
 
     /**
@@ -78,10 +85,15 @@ class cityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data=$request->validate([
-            'name'=>'required',
-        ]);
+        $data=$request->except('_method','_token','group');
 
+        // $data=$request->validate([
+        //     'name'=>'required',
+        //     'group'=>'required',
+        // ]);
+
+        $data['name'] = $request->input('name');
+        $data['group_id']= $request->group;
         $city = City::where('id', '=', $id)->update($data);
 
         return redirect('admin/cities')->with('success','updated');

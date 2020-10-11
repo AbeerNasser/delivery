@@ -37,6 +37,7 @@ Route::group(['middleware' => ['api','checkPassword'] ], function () {
 
             Route::post('availableOrdersDelivery','Api\DelegateController@AvailableOrdersDelivery');
             Route::post('allMyOrders','Api\DelegateController@allMyOrders');
+            Route::post('fillterMyOrders','Api\DelegateController@fillterMyOrders');
             Route::post('myOrdersOnDelivery','Api\DelegateController@myOrdersOnDelivery');
             Route::post('orderDetails', 'Api\DelegateController@OrderDetails');
             Route::post('startDelivery', 'Api\DelegateController@startDelivery');

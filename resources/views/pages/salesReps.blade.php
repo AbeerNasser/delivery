@@ -38,7 +38,7 @@
                                             <td>{{$delegat->name}}</td>
                                             <td>{{$delegat->sn_no}}</td>
                                             <td>
-                                                <a href="{{asset('img/'.$delegat->sn_img)}}" target="_blank"><img src="{{asset('img/'.$delegat->sn_img)}}" width="100px" /></a>
+                                                <a href="{{asset('img/'.$delegat->sn_img)}}" target="_blank"><img src="{{asset('img/'.$delegat->sn_img)}}" width="80px" height="80px"/></a>
                                             </td>
                                             <td>{{$delegat->phone}}</td>
                                             <td>

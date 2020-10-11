@@ -29,6 +29,7 @@ Route::get('admin/home', 'HomeController@handleAdmin')->name('admin.route')->mid
 Route::middleware('admin')->prefix('admin/')->group(function () {
 
     Route::resource('restaurants','ControlPanel\RestController'); 
+    Route::get('showGroups/{id}','ControlPanel\RestController@showGroups'); 
     Route::resource('districts','ControlPanel\DistrictController'); 
     Route::resource('cities','ControlPanel\cityController'); 
     Route::resource('groups','ControlPanel\GroupController'); 
@@ -38,6 +39,7 @@ Route::middleware('admin')->prefix('admin/')->group(function () {
     Route::resource('users','ControlPanel\userController');  
     //Route::get('/status/{id}/{st}','employeesController@editStatus');
     Route::resource('offers','ControlPanel\OfferController'); 
+    Route::post('offer','ControlPanel\OfferController@removeOffer'); 
     Route::resource('support','ControlPanel\supportController'); 
     Route::resource('settings','ControlPanel\SettingController'); 
     //??

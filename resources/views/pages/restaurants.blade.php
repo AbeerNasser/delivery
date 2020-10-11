@@ -39,13 +39,13 @@
                                                 <td>
                                                     <a href="{{url('admin/restaurants/'.$restaurant->id)}}" class="btn btn-danger">عرض</a>                                   
                                                     <a href="{{url('admin/restaurants/'.$restaurant->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                    <a href="{{url('admin/PricingGroup')}}" class="btn btn-secondary"><i class="fa fa-usd"></i> مجموعات التسعير </a>
+                                                    <a href="{{url('admin/showGroups/'.$restaurant->id)}}" class="btn btn-secondary"><i class="fa fa-usd"></i> مجموعات التسعير </a>
                                                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#disableModal">تعطيل مؤقت</button>
-                                                    <form action="{{url('admin/restaurants/'.$restaurant->id)}}" method="POST" class="d-inline-block">
+                                                    {{-- <form action="{{url('admin/restaurants/'.$restaurant->id)}}" method="POST" class="d-inline-block">
                                                         @method('delete')
-                                                        @csrf
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                    </form>
+                                                        @csrf --}}
+                                                        <button type="button" data-id="{{$restaurant->id}}" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
+                                                    {{-- </form> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -85,7 +85,11 @@
                 <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
+                <form id="deleteForm" action="" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">تأكيد الحذف</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>

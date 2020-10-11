@@ -172,10 +172,10 @@
                                 </a>
                                 </li>
                                 <li>
-                                <a href="{{url('admin/settings')}}">
-                                    <i class="fa fa-cogs"></i>
-                                    <span data-hover="الإعدادات">الإعدادات</span>
-                                </a>
+                                    <a href="{{url('admin/settings')}}">
+                                        <i class="fa fa-cogs"></i>
+                                        <span data-hover="الإعدادات">الإعدادات</span>
+                                    </a>
                                 </li>
 
                             </ul>
@@ -335,6 +335,8 @@
             </div>
         </div>
         <!-- jQuery and bootstrtap js -->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+ 
         <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
 
         <!-- start plugin js file  -->
@@ -353,5 +355,24 @@
         <script src="{{asset('assets/js/vendors/selectize.js')}}"></script>
         <script src="{{asset('assets/js/table/datatable.js')}}"></script>
 
+        <script type="text/javascript">
+            $('#addModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                console.log(id);
+                $('#userForm').attr("action", "{{url('admin/offers') }}" + "/" + id);
+                //$('#userForm').attr("action", "{{url('admin/offers/"+id+"/edit')}}");
+                // var modal = $(this);
+                // modal.find('#userForm').attr("action", "{{ url('/admin/offers') }}" + "/" + id)
+            });
+        </script>
+
+        <script type="text/javascript">
+            $('#deleteModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#deleteForm').attr("action", "{{url('admin/restaurants')}}" + "/" + id);
+            });
+        </script>
     </body>
 </html>

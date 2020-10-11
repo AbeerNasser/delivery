@@ -19,7 +19,10 @@ class Restaurant extends Authenticatable implements JWTSubject {
         'password', 'remember_token',
     ];
 
-    
+    public function offer()
+    {
+        return $this->hasOne('App\Models\Offer');
+    }
 
     public function district()
     {

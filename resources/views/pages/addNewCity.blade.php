@@ -31,8 +31,20 @@
                             <div class="card-body">
                                 <h3>{{$flag ? 'تعديل بيانات المدينة' : 'إضافة مدينه جديدة'}} </h3>
                                 <hr /><br />
+                                
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">الجروب</label>
+                                            <select class="form-control custom-select" name="group" value="{{ $flag ? $city->group : ''}}">
+                                                <option value="">إختر ....</option>
+                                                @foreach($groups as $group)
+                                                    <option value="{{$group->id}}">{{$group->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">إسم المدينة</label>
                                             <input type="text" class="form-control" name="name" value="{{ $flag ? $city->name : ''}}">

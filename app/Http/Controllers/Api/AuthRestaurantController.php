@@ -18,7 +18,7 @@ class AuthRestaurantController extends Controller
 
         try {
             $rules = [
-                "email" => "required",
+                "email" => "required|email",
                 "password" => "required"
 
             ];

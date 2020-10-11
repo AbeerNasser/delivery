@@ -25,7 +25,7 @@ if(isset($delegate)) $flag=1;
                         </div>
                     @endif
                     <div class="col-md-12 col-lg-12">
-                        <form class="card" method="POST" action="{{$flag? url('admin/delegats/'.$delegate->id):url('admin/delegats')}}">
+                        <form class="card" method="POST"  enctype="multipart/form-data" action="{{$flag? url('admin/delegats/'.$delegate->id):url('admin/delegats')}}">
                             @if($flag)
                                 @method('put')
                             @endif
@@ -77,7 +77,7 @@ if(isset($delegate)) $flag=1;
                                         <div class="form-group mb-0">
                                             <label class="form-label">ملاحظات إضافية</label>
                                             <textarea rows="5" class="form-control" name="notes">
-                                                {{ $flag ? $delegate->sn_no : ''}}
+                                                {{ $flag ? $delegate->notes : ''}}
                                             </textarea>
                                         </div>
                                     </div>

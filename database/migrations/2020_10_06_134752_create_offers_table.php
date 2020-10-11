@@ -15,6 +15,10 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
+            $table->float('discount_per');
+            $table->date('date_per');
+            $table->unsignedBigInteger('restaurant_id')->nullable();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->timestamps();
         });
     }

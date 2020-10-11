@@ -6,13 +6,14 @@
             <div class="container-fluid">
             <a href="cities/create" class="btn btn-danger btn-block">إضافة مدينة جديدة</a><br />
                 <div class="row clearfix">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12"> 
                         <div class="table-responsive mb-4">
                             <table class="table table-hover js-basic-example dataTable table_custom spacing5">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>المدينة</th>
+                                        <th>الجروب</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
@@ -20,6 +21,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>المدينة</th>
+                                        <th>الجروب</th>
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
@@ -33,6 +35,7 @@
                                             <tr>
                                                 <td>{{$city->id}}</td>
                                                 <td>{{$city->name}}</td>
+                                                <td>{{$city->group['name']}}</td>
                                                 <td>                                 
                                                     <a href="{{url('admin/cities/'.$city->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
                                                     <form action="{{url('admin/cities/'.$city->id)}}" method="POST" class="d-inline-block">

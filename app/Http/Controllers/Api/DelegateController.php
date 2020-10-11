@@ -40,13 +40,37 @@ class DelegateController extends Controller
 
     public function allMyOrders(Request $request)
     {
-        $orders = Order::select('id','order_status','total_price','order_price','created_at')
+        $orders = Order::select('id','order_status','total_price',
+        'order_price','created_at')
         ->where('delegate_id','=', $request->id)
         ->where('order_status','=',2)
         ->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id')
         ])->get();
         return $this -> returnData('data',$orders,'جميع طلباتي');
+    }
+
+    public function fillterMyOrders(Request $request)
+    {
+        $orders =$request->all();
+        // $orderDate=Order::select('date')->get();
+        // $date= \Carbon\Carbon::parse($request->date)->timestamp;
+        // $date->format('Y-m-d');
+        // $orders=date('$orderDate');
+       // $orders=\Carbon\Carbon::createFromFormat('d/m/Y',$orderDate->date)->toDateString();
+        // Carbon\Carbon::createFromFormat('d/m/Y', $holiday->holiday_date)->format('d-m-Y')
+
+        $orders = Order::select('id','order_status','total_price',
+        'order_price','created_at')
+        ->addSelect(['restaurant_name' => Restaurant::select('name')
+        ->whereColumn('id', 'orders.restaurant_id')
+        ])
+        ->where('delegate_id','=', $request->id)
+        ->where('order_status','=',2)
+        ->where('created_at','LIKE', $request->date.'%')
+        ->get();
+
+        return $this -> returnData('data',$orders);
     }
 
     public function myOrderDetails(Request $request)
@@ -124,53 +148,63 @@ class DelegateController extends Controller
    }
 
    public function finishRequest(Request $request)
-   {
-        $total_price=0;  
+   { 
         $data =$request->all();
         
         $delegateStatus=Delegate::where('id',$request->delegate_id)
         ->pluck('delegate_status')->first();
 
-       $orderStatus=Order::where('delegate_id',$request->delegate_id)->pluck('order_status')->first();
+       $orderStatus=Order::where('delegate_id',$request->delegate_id)->where('id',$request->order_id)->pluck('order_status')->first();
 
-        if ($delegateStatus==1 && $orderStatus==1) 
+        if ($delegateStatus==1&&$orderStatus==1) 
         {
-            $order = Order::where('id', $request->order_id)
-            ->update(['order_status' => 2]);
+            $order = Order::where('id',$request->order_id)
+            ->where('delegate_id',$request->delegate_id)
+            ->update(['order_status'=>2]);
 
-            $delegateStatus = Delegate::where('id', $request->delegate_id)
-            ->update(['delegate_status' => 0]);
-           
-            $ord = Order::where('delegate_id',$request->delegate_id)
+            $delegateStatus = Delegate::where('id',$request->delegate_id)
+            ->update(['delegate_status'=>0]);
+
+            $ord = DB::table('orders')
+                ->where('delegate_id',$request->delegate_id)
                 ->join('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
                 ->join('districts', 'restaurants.district_id', '=', 'districts.id')
                 ->join('cities', 'districts.city_id', '=', 'cities.id')
                 ->join('groups', 'cities.group_id', '=', 'groups.id')
                 ->select('groups.price', 'groups.percentage')
                 ->first();
-           
-            $money = $ord -> price * $ord -> percentage;
 
-            $total_price  = $total_price + $money;
-
-            // $order -> money = $order -> price * $order -> percentage;
-            // $order-> total_price  = + $order -> money;
+            $ord-> money =$ord -> price * $ord -> percentage;
 
             Wallet::insert(
                 ['order_id'=>$request->order_id,
                 'delegate_id' => $request->delegate_id,
-                'money' => $money,
-                'created_at'=>Carbon\Carbon::now(),
+                'money' => $ord-> money,
+                'created_at'=>now(),
                 'updated_at'=> now()
                 ]
             );
-           
+
+           $total= Delegate::where('id', $request->delegate_id)
+            ->select('total_price')->pluck('total_price')->first();
+
+            $ord-> total  = $total + $ord-> money;
         
             Delegate::where('id', $request->delegate_id)
-            ->update(['total_price' => $total_price]);
+            ->update(['total_price' => $ord -> total]);
 
-           return $this -> returnData('data',$order,' تم تسليم الطلب الي العميل');
+           return $this -> returnData('data',$ord,' تم تسليم الطلب الي العميل');
        }
+
+    //    $ord = DB::table('orders')
+    //    ->where('delegate_id',$request->delegate_id)
+    //    ->join('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
+    //    ->join('districts', 'restaurants.district_id', '=', 'districts.id')
+    //    ->join('cities', 'districts.city_id', '=', 'cities.id')
+    //    ->join('groups', 'cities.group_id', '=', 'groups.id')
+    //    ->select('groups.price','groups.percentage')
+    //    ->first();
+    //    return $this -> returnData('data',$orderStatus);
         return $this -> returnError('000','');
    }
 
