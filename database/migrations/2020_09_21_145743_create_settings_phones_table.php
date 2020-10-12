@@ -16,8 +16,8 @@ class CreateSettingsPhonesTable extends Migration
         Schema::create('settings_phones', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
-            $table->foreignId('setting_id');
-            $table->foreign('id')->references('id')->on('settings')->onDelete('cascade');
+            $table->foreignId('setting_id')->nullable();
+            $table->foreign('setting_id')->references('id')->on('settings')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

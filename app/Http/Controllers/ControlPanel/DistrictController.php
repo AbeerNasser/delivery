@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\District;
 use App\Models\City;
+use App\Models\Restaurant;
 use DB;
 
 class DistrictController extends Controller
@@ -106,8 +107,9 @@ class DistrictController extends Controller
     public function destroy($id)
     {
         $district = District::findOrFail($id);
+        $district->restaurants()->delete();
         $district->delete();
-        //$district = DB::delete('delete from districts where id = ?',[$id]);
+
         return redirect('admin/districts');
     }
 }

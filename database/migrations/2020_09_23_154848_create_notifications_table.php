@@ -16,8 +16,8 @@ class CreateNotificationsTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->text('body');
-            $table->unsignedBigInteger('delegate_id');
-            $table->foreign('delegate_id')->references('id')->on('delegates');
+            $table->unsignedBigInteger('delegate_id')->nullable();
+            $table->foreign('delegate_id')->references('id')->on('delegates')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

@@ -46,8 +46,17 @@
                                             <input type="text" class="form-control" name="address"  value="{{ $flag ? $restaurant->address : ''}}">
                                         </div>
                                     </div>
-
-
+                                    {{-- <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">عنوان المطعم</label>
+                                            <select class="form-control custom-select" name="address">
+                                            <option value="">إختر ....</option>
+                                                @foreach($districts as $district )
+                                                    <option value="$district->id">{{$district->name}},{{$district->city['name']}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div> --}}
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">البريد الإلكتروني</label>
@@ -102,4 +111,9 @@
             </footer>
         </div>
 
+
+        <script>
+            var str = "How are you doing today?";
+            var res = str.split(" ");
+        </script>
 @endsection

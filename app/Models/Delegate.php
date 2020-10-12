@@ -39,9 +39,9 @@ class Delegate extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Models\CustomerSupport');
     }
 
-    public function wallet()
+    public function wallets()
     {
-        return $this->belongsTo('App\Models\Wallet');
+        return $this->hasMany('App\Models\Wallet');
     }
 
     /**

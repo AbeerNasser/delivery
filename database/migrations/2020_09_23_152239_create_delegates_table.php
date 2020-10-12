@@ -19,6 +19,7 @@ class CreateDelegatesTable extends Migration
             $table->string('sn_img')->nullable();
             $table->string('sn_no')->nullable();
             $table->boolean('delegate_status')->default(0);
+            $table->boolean('temp_disable')->default(0);
             $table->string('password');
             $table->string('phone');
             $table->float('total_price')->default(0);

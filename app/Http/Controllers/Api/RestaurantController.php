@@ -18,9 +18,6 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        // $restaurant = District::find($request -> id);
-        // $city = District::with('city')->get();
-        // $groupName = City::with('group')->get();
         $restaurants = Restaurant::get();
         return $this -> returnData('data',$restaurants);
     }

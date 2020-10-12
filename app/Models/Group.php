@@ -10,8 +10,9 @@ class Group extends Model
         'name', 'percentage','price','created_at','updated_at'
     ];
 
-    public function cities()
+
+    public function districts()
     {
-        return $this->hasMany('App\Models\City');
+        return $this->hasMany('App\Models\District');
     }
 }

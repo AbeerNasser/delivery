@@ -19,9 +19,11 @@ class CreateRestaurantsTable extends Migration
             $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('password');
+            $table->boolean('temp_disable')->default(0);
+            $table->boolean('has_offer')->default(0);
             $table->text('notes')->nullable();
             $table->unsignedBigInteger('district_id')->nullable();
-            $table->foreign('district_id')->references('id')->on('districts');
+            $table->foreign('district_id')->references('id')->on('districts') ->onDelete('cascade');
             $table->timestamps();
         });
     }

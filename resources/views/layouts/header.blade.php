@@ -18,11 +18,13 @@
         <link rel="stylesheet" href="{{asset('assets/plugins/datatable/fixedeader/dataTables.fixedcolumns.bootstrap4.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/plugins/datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css')}}">
         <style>
-            td.details-control {
-            background: url('{{asset('../assets/images/details_open.png')}}') no-repeat center center;
-            cursor: pointer;
-        }
-            tr.shown td.details-control {
+            td.details-control 
+            {
+                background: url('{{asset('../assets/images/details_open.png')}}') no-repeat center center;
+                cursor: pointer;
+            }
+            tr.shown td.details-control 
+            {
                 background: url('{{asset('assets/images/details_close.png')}}') no-repeat center center;
             }
         </style>
@@ -355,6 +357,7 @@
         <script src="{{asset('assets/js/vendors/selectize.js')}}"></script>
         <script src="{{asset('assets/js/table/datatable.js')}}"></script>
 
+        {{-- offers --}}
         <script type="text/javascript">
             $('#addModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
@@ -362,11 +365,11 @@
                 console.log(id);
                 $('#userForm').attr("action", "{{url('admin/offers') }}" + "/" + id);
                 //$('#userForm').attr("action", "{{url('admin/offers/"+id+"/edit')}}");
-                // var modal = $(this);
-                // modal.find('#userForm').attr("action", "{{ url('/admin/offers') }}" + "/" + id)
+
             });
         </script>
 
+        {{-- restaurants --}}
         <script type="text/javascript">
             $('#deleteModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
@@ -374,5 +377,55 @@
                 $('#deleteForm').attr("action", "{{url('admin/restaurants')}}" + "/" + id);
             });
         </script>
+        <script type="text/javascript">
+            $('#disableModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#activeForm').attr("action", "{{url('admin/activeRest')}}" + "/" + id);
+            });
+        </script>
+
+        {{-- delegates --}}
+        <script type="text/javascript">
+            $('#disableModaldelegate').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#activeDelegate').attr("action", "{{url('admin/activeDelegate')}}" + "/" + id);
+            });
+        </script>
+        <script type="text/javascript">
+            $('#deleteModaldelegate').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#deleteForm').attr("action", "{{url('admin/delegats')}}" + "/" + id);
+            });
+        </script>
+
+        {{-- city --}}
+        <script type="text/javascript">
+            $('#deleteModalcity').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#deleteForm').attr("action", "{{url('admin/cities')}}" + "/" + id);
+            });
+        </script>
+        {{--add new price group --}}
+        <script type="text/javascript">
+            $('#addModalGroup').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#addForm').attr("action", "{{url('admin/storeGroup')}}" + "/" + id);
+            });
+        </script>
+
+        {{--add new price districts --}}
+        <script type="text/javascript">
+            $('#deleteModalDistrict').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $('#deleteForm').attr("action", "{{url('admin/districts')}}" + "/" + id);
+            });
+        </script>
+deleteModalDistrict
     </body>
 </html>

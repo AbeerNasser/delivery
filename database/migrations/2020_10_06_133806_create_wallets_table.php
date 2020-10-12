@@ -16,10 +16,10 @@ class CreateWalletsTable extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->float('money');
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders');
-            $table->unsignedBigInteger('delegate_id');
-            $table->foreign('delegate_id')->references('id')->on('delegates');
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->foreign('order_id')->references('id')->on('orders') ->onDelete('cascade');
+            $table->unsignedBigInteger('delegate_id')->nullable();
+            $table->foreign('delegate_id')->references('id')->on('delegates') ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>المدينة</th>
-                                        <th>الجروب</th>
+                                        {{-- <th>الجروب</th> --}}
                                         <th>عمليات</th>
                                     </tr>
                                 </thead>
@@ -21,28 +21,24 @@
                                     <tr>
                                         <th>#</th>
                                         <th>المدينة</th>
-                                        <th>الجروب</th>
+                                        {{-- <th>الجروب</th> --}}
                                         <th>عمليات</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     @if (count($cities)==0)
                                         <tr>
-                                            <td>No Cities</td>
+                                            <td colspan="3" class="text-center">No Cities</td>
                                         </tr>
                                     @else
                                         @foreach ($cities as $city)
                                             <tr>
                                                 <td>{{$city->id}}</td>
                                                 <td>{{$city->name}}</td>
-                                                <td>{{$city->group['name']}}</td>
+                                                {{-- <td>{{$city->group['name']}}</td> --}}
                                                 <td>                                 
                                                     <a href="{{url('admin/cities/'.$city->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                    <form action="{{url('admin/cities/'.$city->id)}}" method="POST" class="d-inline-block">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                    </form>
+                                                    <button type="button" data-id="{{$city->id}}" class="btn btn-success" data-toggle="modal" data-target="#deleteModalcity">حذف</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -71,7 +67,7 @@
 </div>
 
 <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModalcity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,7 +80,11 @@
                 <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
+                <form id="deleteForm" action="" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">تأكيد الحذف</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>

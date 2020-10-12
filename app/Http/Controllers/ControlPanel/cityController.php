@@ -5,7 +5,8 @@ namespace App\Http\Controllers\ControlPanel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\City;
-use App\Models\Group;
+use App\Models\District;
+use App\Models\Restaurant;
 
 class cityController extends Controller
 {
@@ -16,7 +17,8 @@ class cityController extends Controller
     */
     public function index()
     {
-        $cities = City::with('group')->get();
+        // $cities = City::with('group')->get();
+        $cities = City::get();
 
         return view('pages/cities', ['cities' => $cities]);
     }
@@ -28,8 +30,9 @@ class cityController extends Controller
      */
     public function create()
     {
-        $groups=Group::get(['name','id']);
-        return view('pages/addNewCity',['groups' => $groups]);
+        // $districts=District::get(['name','id']);
+        // return view('pages/addNewCity',['districts' => $districts]);
+        return view('pages/addNewCity');
     }
 
     /**
@@ -43,10 +46,10 @@ class cityController extends Controller
         $data=$request->all();
         $data = $request->validate([
             'name'=>'required',
-            'group'=>'required',
+            // 'group'=>'required',
         ]);
 
-        $data['group_id']= $request->group;
+        // $data['group_id']= $request->group;
         $city = City::create($data);
 
         return redirect('admin/cities')->with('success','inserted');
@@ -71,9 +74,12 @@ class cityController extends Controller
      */
     public function edit($id)
     {
-        $groups=Group::get(['name','id']);
+        // $groups=Group::get(['name','id']);
+        // $city = City::find($id);
+        // return view('pages/addNewCity', ['city' => $city,'groups'=>$groups]); 
+
         $city = City::find($id);
-        return view('pages/addNewCity', ['city' => $city,'groups'=>$groups]);
+        return view('pages/addNewCity', ['city' => $city]);
     }
 
     /**
@@ -85,15 +91,15 @@ class cityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data=$request->except('_method','_token','group');
+        $data=$request->except('_method','_token');
 
         // $data=$request->validate([
         //     'name'=>'required',
         //     'group'=>'required',
         // ]);
 
-        $data['name'] = $request->input('name');
-        $data['group_id']= $request->group;
+        // $data['name'] = $request->input('name');
+        // $data['group_id']= $request->group;
         $city = City::where('id', '=', $id)->update($data);
 
         return redirect('admin/cities')->with('success','updated');
@@ -107,6 +113,12 @@ class cityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $city = City::findOrFail($id);
+        // $district = District::where('city_id',$city->id)->get();
+        // $district->restaurants()->delete();
+        $city->districts()->delete();
+        $city->delete();
+        
+        return redirect('admin/cities');
     }
 }

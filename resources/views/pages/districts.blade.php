@@ -29,7 +29,7 @@
                                 <tbody>
                                     @if (count($districts)==0)
                                         <tr>
-                                            <td>No Districts</td>
+                                            <td colspan="4" class="text-center">No Districts</td>
                                         </tr>
                                     @else
                                         @foreach ($districts as $district)
@@ -39,11 +39,7 @@
                                                 <td>{{$district->city['name']}}</td>
                                                 <td>                                 
                                                     <a href="{{url('admin/districts/'.$district->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                    <form action="{{url('admin/districts/'.$district->id)}}" method="POST" class="d-inline-block">
-                                                        @method('delete')
-                                                        @csrf
-                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                    </form>
+                                                    <button type="button" data-id="{{$district->id}}" class="btn btn-success" data-toggle="modal" data-target="#deleteModalDistrict">حذف</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -72,7 +68,7 @@
 </div>
 
 <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModalDistrict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -85,7 +81,11 @@
                 <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
+                <form id="deleteForm" action="" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">تأكيد الحذف</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>

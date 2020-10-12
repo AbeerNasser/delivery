@@ -42,6 +42,8 @@ class RestController extends Controller
      */
     public function create()
     {
+        // $districts =District::with(city)->get();
+        // return view('pages/addNewRest',['districts' => $districts]);
         return view('pages/addNewRest');
     }
 
@@ -61,6 +63,10 @@ class RestController extends Controller
             'password'=>'required|confirmed',
             'notes'=>'nullable|data',
         ]);
+
+        // $address = explode(" ", $request->address);
+        //  $address[0]; // الحي
+        //  $address[1]; // المدينه
 
         // $data['password']=$request->restaurant()->fill([
         //     'password' => Hash::make($request->password)
@@ -97,18 +103,44 @@ class RestController extends Controller
         $groups = DB::table('restaurants')
         ->join('districts', 'restaurants.district_id', '=', 'districts.id')
         ->join('cities', 'districts.city_id', '=', 'cities.id')
-        ->join('groups', 'cities.group_id', '=', 'groups.id')
-        ->select('groups.*','cities.name as city_name','districts.name as district_name')
+        ->join('groups', 'districts.group_id', '=', 'groups.id')
+        ->select('groups.*','restaurants.id as restaurant_id','cities.name as city_name','districts.name as district_name')
         ->where('restaurants.id',$id)
         ->get();
-        // $groups = DB::table('cities')
-        // ->join('groups', 'cities.group_id', '=', 'groups.id')
-        // ->select('groups.*','cities.name as city_name')
-        // ->get();
-
+        $restaurant = Restaurant::find($id); 
         $districts=Restaurant::where('id',$id)->with('district')->get();
-        //dd($districts);
-        return view('pages/PricingGroup',['groups' => $groups,'districts' => $districts]);
+
+        return view('pages/PricingGroup',['restaurant'=>$restaurant,'groups' => $groups,'districts' => $districts]);
+    }
+
+    public function storeGroup(Request $request,$id)
+    {
+        $data=$request->except('_token','_method','district');
+       // $restaurant = Restaurant::find($id); 
+        $restaurant = Restaurant::where('id',$id)->pluck('district_id')->first(); 
+        
+        // $data[ 'restaurant_id']=$restaurant->id;
+       // $districts=$request->district;
+        $group = Group::insert($data);
+        // $district = District::find($restaurant); 
+        // dd($request->district);
+        
+        // foreach ($data->district as $key => $value) {
+        //     District::where('id',$value)->update(['group_id'=>$group->id]);
+            
+        // }
+    
+        return redirect('admin/restaurants')->with('succeess','inserted');
+    }
+
+    public function activeRest($id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+        if($restaurant->temp_disable == 0)
+            Restaurant::where('id',$id)->update(['temp_disable'=>1]);
+        else
+            Restaurant::where('id',$id)->update(['temp_disable'=>0]);
+        return redirect('admin/restaurants');
     }
 
     /**

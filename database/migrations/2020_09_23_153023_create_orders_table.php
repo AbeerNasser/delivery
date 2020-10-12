@@ -24,9 +24,9 @@ class CreateOrdersTable extends Migration
             $table->text('notes')->nullable();
             $table->integer('date')->nullable();
             $table->unsignedBigInteger('delegate_id')->nullable();
-            $table->foreign('delegate_id')->references('id')->on('delegates');
+            $table->foreign('delegate_id')->references('id')->on('delegates')->onDelete('SET NULL');
             $table->unsignedBigInteger('restaurant_id')->nullable();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

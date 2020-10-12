@@ -44,12 +44,9 @@
                                             <td>
                                                 <a href="{{url('admin/delegats/'.$delegat->id)}}" class="btn btn-danger">عرض</a>                                   
                                                 <a href="{{url('admin/delegats/'.$delegat->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
-                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#disableModal">تعطيل مؤقت</button>
-                                                <form action="{{url('admin/delegats/'.$delegat->id)}}" method="POST" class="d-inline-block">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                </form>
+                                                <button type="button" data-id="{{$delegat->id}}" class="btn btn-success" data-toggle="modal" data-target="#disableModaldelegate">{{$delegat->temp_disable==1 ? 'تم التعطيل': 'تعطيل مؤقت'}}</button>
+                                                <button type="button" data-id="{{$delegat->id}}" class="btn btn-success" data-toggle="modal" data-target="#deleteModaldelegate">حذف</button>
+                                                
                                             </td>
                                         </tr>
                                         @endforeach
@@ -78,7 +75,7 @@
 </div>
 
 <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModaldelegate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -91,7 +88,11 @@
                 <p>هل أنت متأكد من حذف هذا العنصر ؟</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد الحذف</button>
+                <form id="deleteForm" action="" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">تأكيد الحذف</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>
@@ -99,7 +100,7 @@
 </div>   
 
 <!-- Disable Modal -->
-    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="disableModaldelegate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -112,7 +113,11 @@
                 <p>هل أنت متأكد من تعطيل هذا المندوب ؟</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد</button>
+                <form id="activeDelegate" action="" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit" class="btn btn-danger">تأكيد</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>

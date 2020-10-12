@@ -33,7 +33,7 @@
                                 <hr /><br />
                                 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">الجروب</label>
                                             <select class="form-control custom-select" name="group" value="{{ $flag ? $city->group : ''}}">
@@ -43,8 +43,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    </div> --}}
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label class="form-label">إسم المدينة</label>
                                             <input type="text" class="form-control" name="name" value="{{ $flag ? $city->name : ''}}">

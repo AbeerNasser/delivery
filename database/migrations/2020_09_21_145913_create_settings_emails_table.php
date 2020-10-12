@@ -16,8 +16,8 @@ class CreateSettingsEmailsTable extends Migration
         Schema::create('settings_emails', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->foreignId('setting_id');
-            $table->foreign('id')->references('id')->on('settings') ->onDelete('cascade');
+            $table->foreignId('setting_id')->nullable();
+            $table->foreign('setting_id')->references('id')->on('settings')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

@@ -13,6 +13,10 @@ class District extends Model
     {
         return $this->belongsTo('App\Models\City');
     }
+    public function group()
+    {
+        return $this->belongsTo('App\Models\Group');
+    }
     public function restaurants()
     {
         return $this->hasMany('App\Models\Restaurant');

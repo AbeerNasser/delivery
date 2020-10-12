@@ -40,7 +40,7 @@ class walletController extends Controller
             return $this -> returnData('data',$wallet,' تم اضافه النسبه الي حسابك');
         }
 
-        return $this -> returnData('data',$order_status);
+        // return $this -> returnData('data',$order_status);
         return $this -> returnError('000','');
     }
 }

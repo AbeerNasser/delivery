@@ -5,7 +5,7 @@
     @section('content')
         <div class="section-body">
             <div class="container-fluid">
-                <button type="button" class="btn btn-success btn-block mb-3" data-toggle="modal" data-target="#addModal">إضافة مجموعة تسعيير جديدة</button>
+                <button type="button" data-id="{{$restaurant->id}}" class="btn btn-success btn-block mb-3" data-toggle="modal" data-target="#addModalGroup">إضافة مجموعة تسعيير جديدة</button>
                 <div class="row clearfix">
                     <div class="col-lg-12">
                         <div class="table-responsive mb-4">
@@ -72,7 +72,7 @@
 </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addModalGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -82,7 +82,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{url('admin/PricingGroup')}}" method="POST">
+                    <form action="" method="POST" id="addForm">
                         @method('post')
                         @csrf
                         <div class="col-md-12">
@@ -93,7 +93,7 @@
                         <div class="col-md-12 mt-2">
                             <div class="form-group">
                                 <label class="form-label">الاحياء</label>
-                                <select class="form-control custom-select" multiple>
+                                <select class="form-control custom-select" multiple name="district">
                                     <option value="">إختر ....</option>
                                     @foreach($districts as $district)
                                         <option value="{{$district->district['id']}}">{{$district->district['name']}}</option>

@@ -18,7 +18,7 @@ class CreateOffersTable extends Migration
             $table->float('discount_per');
             $table->date('date_per');
             $table->unsignedBigInteger('restaurant_id')->nullable();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

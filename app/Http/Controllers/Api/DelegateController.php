@@ -53,12 +53,6 @@ class DelegateController extends Controller
     public function fillterMyOrders(Request $request)
     {
         $orders =$request->all();
-        // $orderDate=Order::select('date')->get();
-        // $date= \Carbon\Carbon::parse($request->date)->timestamp;
-        // $date->format('Y-m-d');
-        // $orders=date('$orderDate');
-       // $orders=\Carbon\Carbon::createFromFormat('d/m/Y',$orderDate->date)->toDateString();
-        // Carbon\Carbon::createFromFormat('d/m/Y', $holiday->holiday_date)->format('d-m-Y')
 
         $orders = Order::select('id','order_status','total_price',
         'order_price','created_at')
@@ -98,8 +92,6 @@ class DelegateController extends Controller
         ->where('order_status','!=', 2)
         ->addSelect(['restaurant_name' => Restaurant::select('name')
         ->whereColumn('id', 'orders.restaurant_id')])->get();
-        // ->addSelect(['delegate_status' => Delegate::select('delegate_status')
-        // ->whereColumn('id', 'orders.delegate_id')])
         
         return $this -> returnData('data',$orders,'طلباتي التي قيد التوصيل حتي الان');
     }
@@ -169,8 +161,8 @@ class DelegateController extends Controller
                 ->where('delegate_id',$request->delegate_id)
                 ->join('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
                 ->join('districts', 'restaurants.district_id', '=', 'districts.id')
-                ->join('cities', 'districts.city_id', '=', 'cities.id')
-                ->join('groups', 'cities.group_id', '=', 'groups.id')
+                // ->join('cities', 'districts.city_id', '=', 'cities.id')
+                ->join('groups', 'districts.group_id', '=', 'groups.id')
                 ->select('groups.price', 'groups.percentage')
                 ->first();
 
@@ -195,16 +187,6 @@ class DelegateController extends Controller
 
            return $this -> returnData('data',$ord,' تم تسليم الطلب الي العميل');
        }
-
-    //    $ord = DB::table('orders')
-    //    ->where('delegate_id',$request->delegate_id)
-    //    ->join('restaurants', 'orders.restaurant_id', '=', 'restaurants.id')
-    //    ->join('districts', 'restaurants.district_id', '=', 'districts.id')
-    //    ->join('cities', 'districts.city_id', '=', 'cities.id')
-    //    ->join('groups', 'cities.group_id', '=', 'groups.id')
-    //    ->select('groups.price','groups.percentage')
-    //    ->first();
-    //    return $this -> returnData('data',$orderStatus);
         return $this -> returnError('000','');
    }
 

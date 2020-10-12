@@ -28,8 +28,8 @@ class OrderController extends Controller
 
         //price for every district
         $districts = DB::table('districts')
-            ->join('cities', 'districts.city_id', '=', 'cities.id')
-            ->join('groups', 'cities.group_id', '=', 'groups.id')
+            // ->join('cities', 'districts.city_id', '=', 'cities.id')
+            ->join('groups', 'districts.group_id', '=', 'groups.id')
             ->select('districts.id', 'districts.name', 'groups.price')
             ->get();
 

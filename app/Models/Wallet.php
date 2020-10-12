@@ -15,7 +15,7 @@ class Wallet extends Model
     
     public function delegate()
     {
-        return $this->hasOne('App\Models\Delegate');
+        return $this->belongsTo('App\Models\Delegate');
     }
 
     public function orders()

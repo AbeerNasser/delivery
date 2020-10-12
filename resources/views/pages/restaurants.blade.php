@@ -28,7 +28,7 @@
                                 <tbody>
                                     @if (count($restaurants)==0)
                                         <tr>
-                                            <td>No Restaurants</td>
+                                            <td colspan="4" class="text-center">No Restaurants</td>
                                         </tr>
                                     @else
                                         @foreach ($restaurants as $restaurant)
@@ -40,14 +40,11 @@
                                                     <a href="{{url('admin/restaurants/'.$restaurant->id)}}" class="btn btn-danger">عرض</a>                                   
                                                     <a href="{{url('admin/restaurants/'.$restaurant->id.'/edit')}}" class="btn btn-secondary">تعديل</a>
                                                     <a href="{{url('admin/showGroups/'.$restaurant->id)}}" class="btn btn-secondary"><i class="fa fa-usd"></i> مجموعات التسعير </a>
-                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#disableModal">تعطيل مؤقت</button>
-                                                    {{-- <form action="{{url('admin/restaurants/'.$restaurant->id)}}" method="POST" class="d-inline-block">
-                                                        @method('delete')
-                                                        @csrf --}}
-                                                        <button type="button" data-id="{{$restaurant->id}}" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
-                                                    {{-- </form> --}}
+                                                    <button type="button" data-id="{{$restaurant->id}}" class="btn btn-success" data-toggle="modal" data-target="#disableModal">{{$restaurant->temp_disable==1 ? 'تم التعطيل': 'تعطيل مؤقت'}}</button>
+                                                    <button type="button" data-id="{{$restaurant->id}}" class="btn btn-success" data-toggle="modal" data-target="#deleteModal">حذف</button>
                                                 </td>
                                             </tr>
+
                                         @endforeach
                                     @endif
                                 </tbody>
@@ -110,7 +107,11 @@
                 <p>هل أنت متأكد من تعطيل هذا المطعم ؟</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">تأكيد</button>
+                <form id="activeForm" action="" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit" class="btn btn-danger">تأكيد</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
             </div>
         </div>

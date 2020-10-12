@@ -30,11 +30,14 @@ Route::middleware('admin')->prefix('admin/')->group(function () {
 
     Route::resource('restaurants','ControlPanel\RestController'); 
     Route::get('showGroups/{id}','ControlPanel\RestController@showGroups'); 
+    Route::post('storeGroup/{id}','ControlPanel\RestController@storeGroup'); 
+    Route::post('activeRest/{id}','ControlPanel\RestController@activeRest'); 
     Route::resource('districts','ControlPanel\DistrictController'); 
     Route::resource('cities','ControlPanel\cityController'); 
     Route::resource('groups','ControlPanel\GroupController'); 
     Route::resource('PricingGroup','ControlPanel\PricingGroupController'); 
-    Route::resource('delegats','ControlPanel\DelegateController'); 
+    Route::resource('delegats','ControlPanel\DelegateController');
+    Route::post('activeDelegate/{id}','ControlPanel\DelegateController@activeDelegate'); 
     Route::resource('orders','ControlPanel\OrderController'); 
     Route::resource('users','ControlPanel\userController');  
     //Route::get('/status/{id}/{st}','employeesController@editStatus');

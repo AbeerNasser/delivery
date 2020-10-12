@@ -45,12 +45,15 @@ class PricingGroupController extends Controller
     public function store(Request $request)
     {
         $data=$request->except('_token','_method');
-// dd($data);
+
+        dd($data);
+
         // $restaurant = Restaurant::find($id); 
         
         // $data[ 'restaurant_id']=$restaurant->id;
 
         $group = Group::insert($data);
+        District::where('id','restaurant_id')->update(['group_id'=>$group->id]);
     
         return redirect('admin/restaurants')->with('succeess','inserted');
     }

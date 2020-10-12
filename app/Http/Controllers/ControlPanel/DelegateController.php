@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ControlPanel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Delegate;
+use App\Models\Wallet;
 // use App\Models\Restaurant;
 use DB;
 
@@ -113,6 +114,21 @@ class DelegateController extends Controller
     */
     public function destroy($id)
     {
-        //
+        $delegate = Delegate::findOrFail($id);
+        $delegate->wallets()->delete();
+        $delegate->delete();
+        
+        return redirect('admin/delegats');
+    }
+
+    public function activeDelegate($id)
+    {
+        $delegate = Delegate::findOrFail($id);
+        if($delegate->temp_disable == 0)
+            Delegate::where('id',$id)->update(['temp_disable'=>1]);
+        else
+            Delegate::where('id',$id)->update(['temp_disable'=>0]);
+
+        return redirect('admin/delegats');
     }
 }

@@ -17,11 +17,11 @@ class CreateCustomerSupportsTable extends Migration
             $table->id();
             $table->string('phone');
             $table->text('details');
-            $table->unsignedBigInteger('delegate_id');
-            $table->foreign('delegate_id')->references('id')->on('delegates');
+            $table->unsignedBigInteger('delegate_id')->nullable();
+            $table->foreign('delegate_id')->references('id')->on('delegates') ->onDelete('SET NULL');
             $table->enum('type_of_problem', ['a','b','c','d']);
-            $table->unsignedBigInteger('restaurant_id');
-            $table->foreign('restaurant_id')->references('id')->on('restaurants');
+            $table->unsignedBigInteger('restaurant_id')->nullable();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants') ->onDelete('SET NULL');
             $table->timestamps();
         });
     }

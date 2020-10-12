@@ -10,10 +10,6 @@ class City extends Model
         'name','group_id'
     ];
 
-    public function group()
-    {
-        return $this->belongsTo('App\Models\Group');
-    }
     public function districts()
     {
         return $this->hasMany('App\Models\District');
